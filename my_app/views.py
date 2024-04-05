@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
+from django.views import View
 from .models import Slider, Category,Places,Product,SubCategory
 def index(request):
     slider=Slider.objects.all()
@@ -31,20 +32,38 @@ def intro(request):
 def invoice(request):
     return render(request, 'my_app/invoice.html')
 
-def listing(request):
-    show='a'
-    data={
-        'show': show,
-    }
-    return render(request, 'my_app/listing.html', context=data)
 
-def showcategory(request,id):
-    show=Category.objects.filter(id=id)
+def listing(request):
+    place=Places.objects.order_by('name')
     data={
-        'show': show,
+        'place': place,
     }
-    return render(request, 'my_app/listing.html', context=data)
-    
+    return render(request, 'my_app/restoran.html', context=data)
+
+def listingshow(request,id):
+    place=Places.objects.filter(id=id)
+    data={
+        'place': place,
+    }
+    return render(request, 'my_app/restoran.html', context=data)
+
+
+def showcategory(request, id):
+    subcategory = get_object_or_404(SubCategory, id=id)
+    category = subcategory.subcat
+    products = Product.objects.filter(category=subcategory)
+    data = {
+        'products': products,
+    }
+    return render(request, 'my_app/showeat.html', context=data)
+def showcategory1(request, id):
+    category = get_object_or_404(Category, id=id)
+    subcategories = SubCategory.objects.filter(subcat=category)
+    products = Product.objects.filter(category__in=subcategories)
+    data = {
+        'products': products,
+    }
+    return render(request, 'my_app/showeat.html', context=data)
 
 def login(request):
     return render(request, 'my_app/login.html')

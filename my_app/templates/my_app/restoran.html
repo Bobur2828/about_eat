@@ -1,0 +1,43 @@
+{% extends 'my_app/listing.html'%}
+{% block product%}
+<div class="row">
+    {% for place in place %}
+    <div class="col-md-4 col-sm-6 mb-4 pb-2">
+        <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
+            <div class="list-card-image">
+                <!-- Display star rating badge -->
+                <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> {{ place.star_rating }} ({{ place.reviews_count }}+)</span></div>
+                <!-- Display favourite icon with link to detail page -->
+                <div class="favourite-heart text-danger position-absolute"><a href="{{ place.detail_url }}"><i class="icofont-heart"></i></a></div>
+                <!-- Display member plan badge -->
+                {% if place.promoted %}
+                <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
+                {% endif %}
+                <!-- Display image with link to detail page -->
+                <a href="{% url 'detail' place.id %}">
+                   <img src="{{ place.image.url }}" class="img-fluid item-img" style="width: 300px; height: 200px;">
+
+                </a>
+            </div>
+            <div class="p-3 position-relative">
+                <div class="list-card-body">
+                    <!-- Display place name with link to detail page -->
+                    <h6 class="mb-1"><a href="{{ place.detail_url }}" class="text-black">Nomi: {{ place.name }}}</a></h6>
+                    <!-- Display cuisine types -->
+                    <p class="text-gray mb-3">Manzil: {{ place.address }}</p>
+                    <!-- Display estimated delivery time and cost for two -->
+                    <p class="text-gray mb-3 time">
+                        <span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 08:00-20:00</span>
+                        <span class="float-right text-black-50"> Turi: {{ place.type_place }} </span>
+                    </p>
+                </div>
+                <!-- Display offer badge and details -->
+                <div class="list-card-badge">
+                    <span class="badge badge-success">OFFER</span> <small>{{ place.offer_details }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock product%}

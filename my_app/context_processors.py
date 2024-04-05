@@ -3,6 +3,7 @@ from . models import Category,Product,Places,SubCategory
 
 def categories(request):
     categories=Category.objects.all()
+
     return {'categories': categories}
 
 def random_restaurants(request):
