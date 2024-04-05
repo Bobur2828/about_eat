@@ -2,7 +2,7 @@ from . models import Category,Product,Places,SubCategory
 
 
 def categories(request):
-    categories=Category.objects.all()
+    categories=Category.objects.order_by('cat_name')
 
     return {'categories': categories}
 

@@ -14,8 +14,9 @@ urlpatterns = [
     path('listing/', views.listing, name='listing'),
     path('listing/<int:id>', views.showcategory, name='listingshow'),
     path('listing1/<int:id>', views.showcategory1, name='listing1'),
-
-
+    path('showeat/<int:id>', views.showeat, name='showeat'),
+    path('showcat/<int:place_id>/<int:cat_id>/', views.detail2, name='showcat'),
+    
     path('login/', views.login, name='login'),
     path('offers/', views.offers, name='offers'),
     path('orders/', views.orders, name='orders'),

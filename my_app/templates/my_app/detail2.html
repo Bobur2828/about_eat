@@ -78,12 +78,12 @@
                               </form>
                               <h6 class="mb-3">{{ place.name}} da mavjud mahsulotlar kategoriyasi  <span class="badge badge-success"></span></h6>
                               <div class="owl-carousel owl-carousel-category owl-theme">
-                                 {% for category in categories %}
+                                 {% for cat in categories1 %}
                                  <div class="item">
                                     <div class="osahan-category-item">
-                                          <a href="#">
-                                             <img class="img-fluid" src="{{ category.subcat_photo.url }}" alt="">
-                                             <h6>{{ category.subcat_name }}</h6>
+                                          <a href="{% url 'showcat' place.id cat.id %}">
+                                             <img class="img-fluid" src="{{ cat.subcat_photo.url }}" alt="">
+                                             <h6>{{ cat.subcat_name }}</h6>
                                           </a>
                                     </div>
                                  </div>
@@ -93,7 +93,7 @@
                            </div>
                            <div class="row">
                               <h5 class="mb-4 mt-3 col-md-12">Best Sellers</h5>
-                              {% for product in place.products1.all %}
+                              {% for product in products %}
                               <div class="col-md-4 col-sm-6 mb-4">
                                   <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                                       <div class="list-card-image">
@@ -117,7 +117,7 @@
                                   </div>
                               </div>
                               {% endfor %}
-                          </div>
+                           </div>
 
                         </div>
                         
@@ -376,32 +376,12 @@
 				  </div>
 
                   <div class='border bg-white' id="accordion">
-                           <div class="filters-card border-bottom p-4">
-                              <div class="filters-card-header" id="headingOne">
-                                 <h6 class="mb-0">
-                                    <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Kategoriyalar <i class="icofont-arrow-down float-right"></i>
-                                    </a>
-                                 </h6>
-                              </div>
-                              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                 <div class="filters-card-body card-shop-filters">
-                                    <aside class="wedget__categories poroduct--tag">
-
-                                       <ul class="list-inline">
-                                          {% for cat in categories %}
-                                          <li class="mb-2"><a class="text-secondary" href="{% url '' cat.id %}">{{ cat.cat_name}} </a></li>
-                                          {% endfor %}
-                                       </ul>
-                                    </aside>   
-                                 </div>
-                              </div>
-                           </div>
+                           
                            <div class="filters-card border-bottom p-4">
                               <div class="filters-card-header" id="headingTwo">
                                  <h6 class="mb-0">
                                     <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="true" aria-controls="collapsetwo">
-                                    Maxsulot Turlari 
+                                       {{place.name}}da mavjud mahsulotlar 
                                     <i class="icofont-arrow-down float-right"></i>
                                     </a>
                                  </h6>
@@ -411,8 +391,8 @@
                                     <aside class="wedget__categories poroduct--tag">
 
                                        <ul class="list-inline">
-                                          {% for cat in subcategories %}
-                                          <li class="mb-2 w-100"><a class="text-secondary w-100 d-flex justify-content-between" href="{% url 'showcategory' cat.id %}">{{ cat.subcat_name}}<span style="text-aligin: right" class="text-sm-end d-flex">({{ cat.products.count }})</span></a></li>
+                                          {% for cat in categories1 %}
+                                          <li class="mb-2 w-100"><a class="text-secondary w-100 d-flex justify-content-between" href="{% url 'showcat' place.id cat.id %}">{{ cat.subcat_name}}<span style="text-aligin: right" class="text-sm-end d-flex">({{ cat.products.count }})</span></a></li>
                                           {% endfor %}
                                        </ul>
                                     </aside>  
@@ -423,7 +403,7 @@
                               <div class="filters-card-header" id="headingCategory">
                                  <h6 class="mb-0">
                                     <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapseFeature" aria-expanded="true" aria-controls="collapseFeature">
-                                    Restoranlar <i class="icofont-arrow-down float-right"></i>
+                                    Boshqa ovqatlanish maskanlari  <i class="icofont-arrow-down float-right"></i>
                                     </a>
                                  </h6>
                               </div>
@@ -433,7 +413,7 @@
 
                                        <ul class="list-inline">
                                           {% for cat in restaurants %}
-                                          <li class="mb-2"><a class="text-secondary" href="{% url 'showcategory' cat.id %}">{{ cat.name}}</a></li>
+                                          <li class="mb-2"><a class="text-secondary" href="{% url 'detail' cat.id %}">{{ cat.name}}</a></li>
                                           {% endfor %}
                                        </ul>
                                     </aside> 

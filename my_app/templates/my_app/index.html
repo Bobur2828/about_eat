@@ -58,10 +58,10 @@
       <div class="row">
          {% for place in random_restaurants %}
          <div class="col-md-3 col-6">
-            <div class="products-box">
+            <a href="{% url 'detail' place.id %}">
                <img src="{{ place.image.url }}" class="img-fluid item-img rounded" style="width: 300px; height: 200px;">
-
-            </div>
+           </a>
+           
          </div>
          {% endfor %}
       </div>
@@ -83,7 +83,7 @@
                         <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
                         <div class="favourite-heart text-danger position-absolute"><a href="detail.html"><i class="icofont-heart"></i></a></div>
                         <div class="member-plan position-absolute"><span class="badge badge-dark">Tasdiqlangan </span></div>
-                        <a href="detail.html">
+                        <a href="{% url 'detail' place.id %}">
                            <img src="{{ place.image.url }}" class="img-fluid item-img" style="width: 300px; height: 200px;">
 
                         </a>

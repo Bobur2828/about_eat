@@ -37,7 +37,7 @@
 
                                        <ul class="list-inline">
                                           {% for cat in categories %}
-                                          <li class="mb-2 w-100"><a class="text-secondary w-100 d-flex justify-content-between" href="{% url 'listingshow' cat.id %}">{{ cat.cat_name}}<span style="text-aligin: right" class="text-sm-end d-flex">({{ cat.subcategory.count }})</span></a></li>
+                                          <li class="mb-2 w-100"><a class="text-secondary w-100 d-flex justify-content-between" href="{% url 'listing1' cat.id %}">{{ cat.cat_name}}<span style="text-aligin: right" class="text-sm-end d-flex">({{ cat.subcategory.count}})</span></a></li>
 
                                           {% endfor %}
                                        </ul>

@@ -10,18 +10,51 @@ def index(request):
     }
     return render(request, 'my_app/index.html', context=data)
 
+
+def detail(request, id):    #restoran ichidagi malumotlarni korish uchun 
+    place = Places.objects.get(id=id)
+    categories1 = SubCategory.objects.filter(products__restaurant=place).distinct()
+    products = Product.objects.filter(restaurant=place)
+    data = {
+        'place': place,
+        'categories1': categories1,
+        'products': products,
+    }
+    return render(request, 'my_app/detail2.html', context=data)
+
+def detail2(request, place_id, cat_id):    #restoran ichidagi categorylar malumotini korish uchun 
+    place = get_object_or_404(Places, id=place_id)
+    subcategory = get_object_or_404(SubCategory, id=cat_id)
+    category = subcategory.subcat
+    categories1 = SubCategory.objects.filter(products__restaurant=place).distinct()
+    products = Product.objects.filter(category=subcategory)
+    data = {
+        'place': place,
+        'categories1': categories1,
+        'products': products,
+    }
+    return render(request, 'my_app/detail2.html', context=data)
+
+
+
 def error(request):
     return render(request, 'my_app/404.html')
 
 def checkout(request):
     return render(request, 'my_app/checkout.html')
 
-def detail(request, id):
-    place = Places.objects.get(id=id)
-    categories = SubCategory.objects.filter(products__restaurant=place).distinct()
-    return render(request, 'my_app/detail2.html', {'place': place, 'categories': categories})
 
 
+
+def showeat(request, id):
+
+    subcategory = get_object_or_404(SubCategory, id=id)
+    category = subcategory.subcat
+    products = Product.objects.filter(category=subcategory)
+    data = {
+        'products': products,
+    }
+    return render(request, 'my_app/showeat1.html', context=data)
 
 def extra(request):
     return render(request, 'my_app/extra.html')

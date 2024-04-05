@@ -24,7 +24,8 @@
                     <!-- Display place name with link to detail page -->
                     <h6 class="mb-1"><a href="{{ place.detail_url }}" class="text-black">{{ product.name }}</a></h6>
                     <!-- Display cuisine types -->
-                    <p class="text-gray mb-3">{{ product.restaurant.name }}</p>
+                    <p class="text-gray mb-3"><a href="{% url 'detail' product.restaurant.id %}">{{ product.restaurant.name }}</a></p>
+
                     <!-- Display estimated delivery time and cost for two -->
                     <p class="text-gray mb-3 time">
                         <span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"></i> {{product.price}} so'm</span>
