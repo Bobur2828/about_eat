@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static%}
+      <section class="section pt-5 pb-5 osahan-not-found-page">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12 text-center pt-5 pb-5">
+                  <img class="img-fluid" src="{% static 'my_app/img/404.png'%}" alt="404">
+                  <h1 class="mt-2 mb-2">Page not found</h1>
+                  <p>Uh-oh! Looks like the page you are trying to access, doesn't <br>exist. Please start afresh.</p>
+                  <a class="btn btn-primary btn-lg" href="index.html">GO HOME</a>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section class="section pt-5 pb-5 text-center bg-white">
+         <div class="container">
+            <div class="row">
+               <div class="col-sm-12">
+                  <h5 class="m-0">Operate food store or restaurants? <a href="login.html">Work With Us</a></h5>
+               </div>
+            </div>
+         </div>
+      </section>
+      {% endblock content %}

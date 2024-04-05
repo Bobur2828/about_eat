@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+      <section class="breadcrumb-osahan pt-5 pb-5 bg-dark position-relative text-center">
+         <h1 class="text-white">Sizga Yaqin Takliflar</h1>
+         <h6 class="text-white-50">Sevimli restoranlaringizda eng yaxshi narxlar</h6>
+      </section>
+      <section class="section pt-5 pb-5 products-listing">
+         <div class="container">
+            <div class="row d-none-m">
+               <div class="col-md-12">
+                  
+                  <h4 class="font-weight-bold mt-0 mb-3">OFFERS <small class="h6 mb-0 ml-2">299 restaurants
+                     </small>
+                  </h4>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-md-3">
+                  <div class="filters shadow-sm rounded bg-white mb-4">
+                     <div class="filters-header border-bottom pl-4 pr-4 pt-3 pb-3">
+                        <h5 class="m-0">Kategoriyalar</h5>
+                     </div>
+                     <div class="filters-body">
+                        <div id="accordion">
+                           <div class="filters-card border-bottom p-4">
+                              <div class="filters-card-header" id="headingOne">
+                                 <h6 class="mb-0">
+                                    <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Kategoriyalar <i class="icofont-arrow-down float-right"></i>
+                                    </a>
+                                 </h6>
+                              </div>
+                              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                 <div class="filters-card-body card-shop-filters">
+                                    <aside class="wedget__categories poroduct--tag">
+
+                                       <ul class="list-inline">
+                                          {% for cat in categories %}
+                                          <li class="mb-2"><a class="text-secondary" href="{% url 'showcategory' cat.id %}">{{ cat.cat_name}}</a></li>
+                                          {% endfor %}
+                                       </ul>
+                                    </aside>   
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="filters-card border-bottom p-4">
+                              <div class="filters-card-header" id="headingTwo">
+                                 <h6 class="mb-0">
+                                    <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="true" aria-controls="collapsetwo">
+                                    Maxsulot Turlari 
+                                    <i class="icofont-arrow-down float-right"></i>
+                                    </a>
+                                 </h6>
+                              </div>
+                              <div id="collapsetwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                                 <div class="filters-card-body card-shop-filters">
+                                    <aside class="wedget__categories poroduct--tag">
+
+                                       <ul class="list-inline">
+                                          {% for cat in subcategories %}
+                                          <li class="mb-2"><a class="text-secondary" href="{% url 'showcategory' cat.id %}">{{ cat.subcat_name}}</a></li>
+                                          {% endfor %}
+                                       </ul>
+                                    </aside>  
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="filters-card border-bottom p-4">
+                              <div class="filters-card-header" id="headingCategory">
+                                 <h6 class="mb-0">
+                                    <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapseFeature" aria-expanded="true" aria-controls="collapseFeature">
+                                    Restoranlar <i class="icofont-arrow-down float-right"></i>
+                                    </a>
+                                 </h6>
+                              </div>
+                              <div id="collapseFeature" class="collapse" aria-labelledby="headingCategory" data-parent="#accordion">
+                                 <div class="filters-card-body card-shop-filters">
+                                    <aside class="wedget__categories poroduct--tag">
+
+                                       <ul class="list-inline">
+                                          {% for cat in restaurants %}
+                                          <li class="mb-2"><a class="text-secondary" href="{% url 'showcategory' cat.id %}">{{ cat.name}}</a></li>
+                                          {% endfor %}
+                                       </ul>
+                                    </aside> 
+                                 </div>
+                              </div>
+                           </div> 
+                        </div>
+                     </div>
+                  </div>
+                  <div class="filters pt-2">
+                     <div class="filters-body rounded shadow-sm bg-white">
+                        <div class="filters-card p-4">
+                           <div>
+                              <div class="filters-card-body card-shop-filters pt-0">
+                                 <div class="custom-control custom-radio">
+                                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" checked="">
+                                    <label class="custom-control-label" for="customRadio1">Gold Partner</label>
+                                 </div>
+                                 <div class="custom-control custom-radio mt-1 mb-1">
+                                    <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+                                    <label class="custom-control-label" for="customRadio2">Order Food Online</label>
+                                 </div>
+								 <div class="custom-control custom-radio">
+                                    <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input" checked="">
+                                    <label class="custom-control-label" for="customRadio3">Osahan Eat</label>
+                                 </div>
+                                 <hr>
+                                 <small class="text-success">Use code OSAHAN50 to get 50% OFF (up to $30) on first 5 orders. T&Cs apply.</small>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-9">
+                  <div class="owl-carousel owl-carousel-category owl-theme list-cate-page mb-4">
+                     {% for category in categories%}
+                     <div class="item">
+                        <div class="osahan-category-item">
+                           <a href="#">
+                              <img class="img-fluid" src="{{ category.cat_photo.url }}" alt="">
+                              <h6>{{ category.cat_name }}</h6>
+                              <p>{{ category.products.count }}</p>
+                           </a>
+                        </div>
+                     </div>
+                  {% endfor %}
+                     
+                  </div>
+                  <div class="row">
+                     {% for place in restaurants %}
+                     <div class="col-md-4 col-sm-6 mb-4 pb-2">
+                         <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
+                             <div class="list-card-image">
+                                 <!-- Display star rating badge -->
+                                 <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> {{ place.star_rating }} ({{ place.reviews_count }}+)</span></div>
+                                 <!-- Display favourite icon with link to detail page -->
+                                 <div class="favourite-heart text-danger position-absolute"><a href="{{ place.detail_url }}"><i class="icofont-heart"></i></a></div>
+                                 <!-- Display member plan badge -->
+                                 {% if place.promoted %}
+                                 <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
+                                 {% endif %}
+                                 <!-- Display image with link to detail page -->
+                                 <a href="{% url 'detail' place.id %}">
+                                    <img src="{{ place.image.url }}" class="img-fluid item-img" style="width: 300px; height: 200px;">
+
+                                 </a>
+                             </div>
+                             <div class="p-3 position-relative">
+                                 <div class="list-card-body">
+                                     <!-- Display place name with link to detail page -->
+                                     <h6 class="mb-1"><a href="{{ place.detail_url }}" class="text-black">Nomi: {{ place.name }}}</a></h6>
+                                     <!-- Display cuisine types -->
+                                     <p class="text-gray mb-3">Manzil: {{ place.address }}</p>
+                                     <!-- Display estimated delivery time and cost for two -->
+                                     <p class="text-gray mb-3 time">
+                                         <span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 08:00-20:00</span>
+                                         <span class="float-right text-black-50"> Turi: {{ place.type_place }} </span>
+                                     </p>
+                                 </div>
+                                 <!-- Display offer badge and details -->
+                                 <div class="list-card-badge">
+                                     <span class="badge badge-success">OFFER</span> <small>{{ place.offer_details }}</small>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     {% endfor %}
+                 </div>
+                 <div class="col-md-12 text-center load-more">
+                     <button class="btn btn-primary" type="button" disabled>
+                         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                         Loading...
+                     </button>  
+                 </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         </div>
+      </section>
+      <section class="section pt-5 pb-5 text-center bg-white">
+         <div class="container">
+            <div class="row">
+               <div class="col-sm-12">
+                  <h5 class="m-0">Operate food store or restaurants? <a href="login.html">Work With Us</a></h5>
+               </div>
+            </div>
+         </div>
+      </section>
+      {% endblock content %}

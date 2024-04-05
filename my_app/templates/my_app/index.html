@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static%}
+<section class="pt-5 pb-5 homepage-search-block position-relative">
+   <div class="banner-overlay"></div>
+   <div class="container">
+      <div class="row d-flex align-items-center">
+         <div class="col-md-8">
+            <div class="homepage-search-title">
+               <h1 class="mb-2 font-weight-normal"><span class="font-weight-bold">Ajoyib narxlar faqat</span> faqat Farg'onada</h1>
+               <h5 class="mb-5 text-secondary font-weight-normal">Farg'onadagi tendentsiyalarga asoslangan eng yaxshi restoranlar, va barlar ro'yxati</h5>
+            </div>
+            <div class="homepage-search-form">
+               <form class="form-noborder">
+                  <div class="form-row">
+                     
+                     <div class="col-lg-7 col-md-7 col-sm-12 form-group">
+                        <input type="text" placeholder="Maxsulot nomini kiriting " class="form-control form-control-lg">
+                     </div>
+                     <div class="col-lg-2 col-md-2 col-sm-12 form-group">
+                        <a href="listing.html" class="btn btn-primary btn-block btn-lg btn-gradient">Qiridish</a>
+                        <!--<button type="submit" class="btn btn-primary btn-block btn-lg btn-gradient">Search</button>-->
+                     </div>
+                  </div>
+               </form>
+            </div>
+            <h6 class="mt-4 text-shadow font-weight-normal"> </h6>
+            <div class="owl-carousel owl-carousel-category owl-theme">
+               {% for category in categories%}
+               <div class="item">
+                  <div class="osahan-category-item">
+                     <a href="#">
+                        <img class="img-fluid" src="{{ category.cat_photo.url }}" alt="">
+                        <h6>{{ category.cat_name }}</h6>
+                        <p>{{ category.products.count }}</p>
+                     </a>
+                  </div>
+               </div>
+              {% endfor %}
+            </div>
+         </div>
+         <div class="col-md-4">
+            <div class="osahan-slider pl-4 pt-3">
+               <div class="owl-carousel homepage-ad owl-theme">
+                  {% for slide in categories%}
+                  <div class="item">
+                     <a href="listing.html"><img class="img-fluid rounded" src="{{ slide.cat_photo.url }}"></a>
+                  </div>
+                  {% endfor %}
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<section class="section pt-5 pb-5 bg-white homepage-add-section">
+   <div class="container">
+      <div class="row">
+         {% for place in random_restaurants %}
+         <div class="col-md-3 col-6">
+            <div class="products-box">
+               <img src="{{ place.image.url }}" class="img-fluid item-img rounded" style="width: 300px; height: 200px;">
+
+            </div>
+         </div>
+         {% endfor %}
+      </div>
+   </div>
+</section>
+<section class="section pt-5 pb-5 products-section">
+   <div class="container">
+      <div class="section-header text-center">
+         <h2>Mashxur ovqatlanish joylari</h2>
+         <span class="line"></span>
+      </div>
+      <div class="row">
+         <div class="col-md-12">
+            <div class="owl-carousel owl-carousel-four owl-theme">
+               {% for place in restaurants %}
+               <div class="item">
+                  <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
+                     <div class="list-card-image">
+                        <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
+                        <div class="favourite-heart text-danger position-absolute"><a href="detail.html"><i class="icofont-heart"></i></a></div>
+                        <div class="member-plan position-absolute"><span class="badge badge-dark">Tasdiqlangan </span></div>
+                        <a href="detail.html">
+                           <img src="{{ place.image.url }}" class="img-fluid item-img" style="width: 300px; height: 200px;">
+
+                        </a>
+                     </div>
+                     <div class="p-3 position-relative">
+                        <div class="list-card-body">
+                           <h6 class="mb-1"><a href="detail.html" class="text-black">Nomi: {{ place.name }}</a></h6>
+                           <p class="text-gray mb-3">Manzil: {{ place.address }}  </p>
+                           <p class="text-gray mb-3">Turi: {{ place.type_place }} </p>
+
+                           <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 08:00-20:00</span> <span class="float-right text-black-50"> {{ place.price_range }}</span></p>
+                        </div>
+                        <div class="list-card-badge">
+                           <span class="badge badge-success">Tashrif buyurish</span> <small>{{ place.discount }}</small>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               {% endfor %}
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+
+
+{% endblock content%}
