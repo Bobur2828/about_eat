@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import PasswordChangeForm
 from users.models import User
 class RegisterForm(forms.ModelForm):
     username = forms.CharField(label="", widget=forms.TextInput(attrs={'placeholder': 'Login', 'class': 'form-control w-100'}))
@@ -61,3 +62,9 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', "email", 'image','phone_number']
+
+
+class UserPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(label='Eski parolingiz', widget=forms.PasswordInput)
+    new_password1 = forms.CharField(label='Yangi parol', widget=forms.PasswordInput)
+    new_password2 = forms.CharField(label='Parolni tasdiqlang', widget=forms.PasswordInput)

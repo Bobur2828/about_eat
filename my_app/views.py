@@ -39,7 +39,7 @@ def index(request):
     return render(request, 'my_app/index.html', context=data)
 
 
-class DetailView(LoginRequiredMixin,View):
+class DetailView(View):
     def get(self, request, id):
         place = get_object_or_404(Places, id=id)
         categories1 = SubCategory.objects.filter(products__restaurant=place).distinct()
@@ -70,7 +70,7 @@ class DetailView(LoginRequiredMixin,View):
         if formComment.is_valid():
             Comment.objects.create(
                 user=request.user,
-                place=place,
+                places=place,
                 comment=formComment.cleaned_data['comment'],
                 stars_given=formComment.cleaned_data['stars_given'],
             )
@@ -112,8 +112,8 @@ def detail2(request, place_id, cat_id):
 
 def list_places(request, id):
     type_place = get_object_or_404(TypePlaces, id=id)
-    places = Places.objects.filter(type_place=type_place).select_related('type_place')
-    return render(request, 'my_app/restoran.html', {'places': places})
+    place = Places.objects.filter(type_place=type_place).select_related('type_place')
+    return render(request, 'my_app/restoran.html', {'place': place})
 
 def show_category(request, id):
     category = get_object_or_404(Category, id=id)

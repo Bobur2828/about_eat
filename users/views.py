@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from users.forms import RegisterForm, LoginForm,ProfileUpdateForm
+from users.forms import RegisterForm, LoginForm,ProfileUpdateForm,UserPasswordChangeForm
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
@@ -13,7 +13,8 @@ from users.models import User
 from django.views.generic.edit import UpdateView
 import asyncio
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.mixins import LoginRequiredMixin
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -76,3 +77,18 @@ class Profile(View):
     def get(self, request):
         return render(request, 'account_view.html')
     
+
+
+
+class UserPasswordView(LoginRequiredMixin, PasswordChangeView):
+    form_class = UserPasswordChangeForm
+    template_name = 'my_app/change_password.html'
+    success_url = reverse_lazy('index')
+    def form_valid(self, form):
+        messages.success(self.request, "Parolingiz muvaffaqiyatli o'zgartirildi")
+        return super().form_valid(form)    
+    
+
+
+def index(request):
+    return render(request,'users/my-profile.html')
