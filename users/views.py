@@ -1,7 +1,4 @@
 from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from users.forms import RegisterForm, LoginForm,ProfileUpdateForm,UserPasswordChangeForm
@@ -15,6 +12,9 @@ import asyncio
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import update_session_auth_hash
+from my_app.models import Comment
+from django.views.decorators.http import require_POST
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -61,32 +61,45 @@ from django.shortcuts import get_object_or_404
 class ProfileUpdateView(UpdateView):
 
     def get(self, request):
-        form = ProfileUpdateForm(instance=request.user)
-        return render(request, 'account_update.html', {'form':form})
+        updateform = ProfileUpdateForm(instance=request.user)
+        passwordform = UserPasswordChangeForm(user=request.user)
+        return render(request, 'users/my-profile.html', {'updateform':updateform,'passwordform':passwordform})
+    
     def post(self, request):
-        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
-        r = request.POST
-        f = request.FILES
-        print(r)
-        if form.is_valid():
-            form.save()
-            return redirect('users:profile')
-        return render(request, 'account_update.html', {'form':form})
+        updateform = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
+        if updateform.is_valid():
+            updateform.save()
+            return redirect('users:profile_update')
+        return render(request, 'users/my-profile.html', {'updateform':updateform})
+
+    def post(self, request):
+        passwordform = UserPasswordChangeForm(user=request.user, data=request.POST)
+        if passwordform.is_valid():
+            passwordform.save()
+            update_session_auth_hash(request, request.user)
+            messages.success(request,(" parol almashtirish muvaffaqiyatli yakunlandi "))
+            return redirect('index')  
+        return render(request, 'users/my-profile.html', {'passwordform': passwordform})
 
 class Profile(View):
     def get(self, request):
-        return render(request, 'account_view.html')
+        return render(request, 'users/my-profile.html')
     
 
 
+class ProfilePasswordChangeView(LoginRequiredMixin, View):
+    def get(self, request):
+        passwordform = UserPasswordChangeForm(user=request.user)
+        return render(request, 'users/my-profile.html', {'form': form})
 
-class UserPasswordView(LoginRequiredMixin, PasswordChangeView):
-    form_class = UserPasswordChangeForm
-    template_name = 'my_app/change_password.html'
-    success_url = reverse_lazy('index')
-    def form_valid(self, form):
-        messages.success(self.request, "Parolingiz muvaffaqiyatli o'zgartirildi")
-        return super().form_valid(form)    
+    def post(self, request):
+        form = UserPasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Parolingiz muvaffaqiyatli o'zgartirildi")
+            return redirect('users:profile_update')  # Ma'lumotlarni saqlashdan so'ng sahifani qaytarish
+        return render(request, 'users/my-profile.html', {'form': form})
+    
     
 
 
@@ -94,13 +107,18 @@ def index(request):
     return render(request,'users/my-profile.html')
 
 def review(request):
-    return render(request,'users/reviews.html')
+    comments=Comment.objects.all()
 
-def index(request):
-    return render(request,'users/my-profile.html')
+    return render(request,'users/reviews.html',{'comments':comments})
 
-def index(request):
-    return render(request,'users/my-profile.html')
 
-def index(request):
-    return render(request,'users/my-profile.html')
+def delete_comment(request, id):
+    comment = get_object_or_404(Comment, id=id)
+    
+    if comment.user == request.user:
+        comment.delete()
+        messages.success(request, "Xabar o'chirildi!")
+        return redirect(reverse('users:review'))
+    
+    messages.error(request, "Ushbu xabarga o'chirish huquqi yo'q")
+    return redirect('users:review')

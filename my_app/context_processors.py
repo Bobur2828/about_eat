@@ -35,17 +35,3 @@ def view_liked(request):
     }
     return context
 
-def search(request):
-    search=request.GET.get('q','')
-    if search:
-        products=Product.objects.filter(name__icontains=search)
-        data = {
-        "products":products,
-    }
-
-        
-    else:
-        data = {
-        "products":products,
-    }
-        return data

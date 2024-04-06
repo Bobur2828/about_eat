@@ -47,15 +47,13 @@ class LoginForm(forms.Form):
         return username
     
 class ProfileUpdateForm(forms.ModelForm):
-    username = forms.CharField(disabled=True ,label="", widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control w-100'}))
+    username = forms.CharField(disabled=True, label="Login", widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control w-100'}))
+    first_name = forms.CharField(label="Ismingiz", widget=forms.TextInput(attrs={'placeholder': 'Ismingiz', 'class': 'form-control w-100'}))
+    last_name = forms.CharField(label="Familiyangiz", widget=forms.TextInput(attrs={'placeholder': 'Familiyangiz', 'class': 'form-control w-100'}))
+    email = forms.CharField(disabled=True, label="Email", widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control w-100'}))
+    image = forms.ImageField(label="Rasm", widget=forms.FileInput(attrs={'class': 'form-control', 'placeholder': 'Rasm'}))
+    phone_number = forms.CharField(label="Telefon raqamingiz", widget=forms.TextInput(attrs={'placeholder': 'Telefon raqamingiz', 'class': 'form-control w-100'}))
 
-    first_name = forms.CharField(label="", widget=forms.TextInput(
-        attrs={'placeholder': 'First name', 'class': 'form-control w-100'}))
-    last_name = forms.CharField(label="", widget=forms.TextInput(
-        attrs={'placeholder': 'Last name', 'class': 'form-control w-100'}))
-    email = forms.CharField(disabled=True ,label="", widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control w-100'}))
-    image = forms.ImageField(label="", widget=forms.FileInput(attrs={'class': 'form-control'}))
-    phone_number = forms.CharField(label="", widget=forms.TextInput(attrs={'placeholder': 'Phone Number', 'class': 'form-control w-100'}))
 
     
 
@@ -68,3 +66,12 @@ class UserPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(label='Eski parolingiz', widget=forms.PasswordInput)
     new_password1 = forms.CharField(label='Yangi parol', widget=forms.PasswordInput)
     new_password2 = forms.CharField(label='Parolni tasdiqlang', widget=forms.PasswordInput)
+
+    def clean_new_password2(self):
+        new_password1 = self.cleaned_data.get('new_password1')
+        new_password2 = self.cleaned_data.get('new_password2')
+
+        if new_password1 and new_password2 and new_password1 != new_password2:
+            raise forms.ValidationError("Yangi parollar mos kelmadi. Iltimos, qaytadan kiriting.")
+        
+        return new_password2

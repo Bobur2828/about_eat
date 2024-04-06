@@ -2,319 +2,337 @@
 {% block content %}
 {% load static%}
 {% load crispy_forms_tags %}
-      <section class="restaurant-detailed-banner">
-         <div class="text-center">
-            <img class="img-fluid cover" src="https://www.eatthis.com/wp-content/uploads/sites/4/2020/07/chinese-food.jpg?quality=82&strip=all" style="width: 100%; height: 300px;">
+<section class="restaurant-detailed-banner">
+   <div class="text-center">
+      <img class="img-fluid cover"
+         src="https://www.eatthis.com/wp-content/uploads/sites/4/2020/07/chinese-food.jpg?quality=82&strip=all"
+         style="width: 100%; height: 300px;">
 
-         </div>
-         <div class="restaurant-detailed-header">
-            <div class="container">
-               <div class="row d-flex align-items-end">
-                  <div class="col-md-8">
-                     <div class="restaurant-detailed-header-left">
-                        <img class="img-fluid mr-3 float-left" alt="osahan" src="{{place.image.url}}">
-                        <h2 class="text-white">{{place.name}}</h2>
-                        <p class="text-white mb-1"><i class="icofont-location-pin"></i>{{place.address}}<span class="badge badge-success">OPEN</span>
-                        </p>
-                        </p>
-                     </div>
-                  </div>
-                  <div class="col-md-4">
-                     <div class="restaurant-detailed-header-right text-right">
-                        <button class="btn btn-success" type="button"><i class="icofont-clock-time"></i> 25–35 min
-                        </button>
-                        <h6 class="text-white mb-0 restaurant-detailed-ratings"><span class="generator-bg rounded text-white"><i class="icofont-star"></i> {{result1}}</span>  <i class="ml-3 icofont-speech-comments">Sharxlar </i> ({{ place.comments.count}})</h6>
-                     </div>
-                  </div>
+   </div>
+   <div class="restaurant-detailed-header">
+      <div class="container">
+         <div class="row d-flex align-items-end">
+            <div class="col-md-8">
+               <div class="restaurant-detailed-header-left">
+                  <img class="img-fluid mr-3 float-left" alt="osahan" src="{{place.image.url}}">
+                  <h2 class="text-white">{{place.name}}</h2>
+                  <p class="text-white mb-1"><i class="icofont-location-pin"></i>{{place.address}}<span
+                        class="badge badge-success">OPEN</span>
+                  </p>
+                  </p>
+               </div>
+            </div>
+            <div class="col-md-4">
+               <div class="restaurant-detailed-header-right text-right">
+                  <button class="btn btn-success" type="button"><i class="icofont-clock-time"></i> 25–35 min
+                  </button>
+                  <h6 class="text-white mb-0 restaurant-detailed-ratings"><span
+                        class="generator-bg rounded text-white"><i class="icofont-star"></i> {{result1}}</span> <i
+                        class="ml-3 icofont-speech-comments">Sharxlar </i> ({{ place.comments.count}})</h6>
                </div>
             </div>
          </div>
-         </div> 
-      </section>
-      <section class="offer-dedicated-nav bg-white border-top-0 shadow-sm">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-12">
-                  <span class="restaurant-detailed-action-btn float-right">
-                  <button class="btn btn-light btn-sm border-light-btn" type="button"><i class="icofont-heart text-danger"></i> Sevimlilar ro'yhatiga qo'shish</button>
-                 
-                  </span>
-                  <ul class="nav" id="pills-tab" role="tablist">
-                     <li class="nav-item">
-                        <a class="nav-link active" id="pills-order-online-tab" data-toggle="pill" href="#pills-order-online" role="tab" aria-controls="pills-order-online" aria-selected="true">Mahsulotlar</a>
-                     </li>
-                     
-                     <li class="nav-item">
-                        <a class="nav-link" id="pills-restaurant-info-tab" data-toggle="pill" href="#pills-restaurant-info" role="tab" aria-controls="pills-restaurant-info" aria-selected="false">Info</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" id="pills-book-tab" data-toggle="pill" href="#pills-book" role="tab" aria-controls="pills-book" aria-selected="false">Xabar yo'llash</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" id="pills-reviews-tab" data-toggle="pill" href="#pills-reviews" role="tab" aria-controls="pills-reviews" aria-selected="false">Izohlar va Reyting</a>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-         </div>
-      </section>
-      <section class="offer-dedicated-body pt-2 pb-2 mt-4 mb-4">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-8">
-                  <div class="offer-dedicated-body-left">
-                     <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="pills-order-online" role="tabpanel" aria-labelledby="pills-order-online-tab">
-                           <div id="#menu" class="bg-white rounded shadow-sm p-4 mb-4 explore-outlets">
-                              <h5 class="mb-4">Tavsiya etamiz</h5>
-                              <form class="explore-outlets-search mb-4">
-                                 <div class="input-group">
-                                    <input type="text" placeholder="Ovqat nomini kiriting " class="form-control">
-                                    <div class="input-group-append">
-                                       <button type="button" class="btn btn-link">
-                                       <i class="icofont-search"></i>
-                                       </button>
-                                    </div>
-                                 </div>
-                              </form>
-                              <h6 class="mb-3">{{ place.name}} da mavjud mahsulotlar kategoriyasi  <span class="badge badge-success"></span></h6>
-                              <div class="owl-carousel owl-carousel-category owl-theme">
-                                 {% for cat in categories1 %}
-                                 <div class="item">
-                                    <div class="osahan-category-item">
-                                          <a href="{% url 'showcat' place.id cat.id %}">
-                                             <img class="img-fluid" src="{{ cat.subcat_photo.url }}" alt="">
-                                             <h6>{{ cat.subcat_name }}</h6>
-                                          </a>
-                                    </div>
-                                 </div>
-                                 {% endfor %}
+      </div>
+   </div>
+   </div>
+</section>
+<section class="offer-dedicated-nav bg-white border-top-0 shadow-sm">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            
+            <ul class="nav" id="pills-tab" role="tablist">
+               <li class="nav-item">
+                  <a class="nav-link active" id="pills-order-online-tab" data-toggle="pill" href="#pills-order-online"
+                     role="tab" aria-controls="pills-order-online" aria-selected="true">Mahsulotlar</a>
+               </li>
 
-                             </div>
-                           </div>
-                           <div class="row">
-                              <h5 class="mb-4 mt-3 col-md-12">Best Sellers</h5>
-                              {% for product in products %}
-                              <div class="col-md-4 col-sm-6 mb-4">
-                                  <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                                      <div class="list-card-image">
-                                          <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                                          <div class="favourite-heart text-danger position-absolute" value="{{ product.id}}" id="heart"><a href="#"><i class="icofont-heart"></i></a></div>
-                                          <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                                          <a href="#">
-                                              <img src="{{ product.photo.url }}" class="img-fluid item-img">
-                                          </a>
-                                      </div>
-                                      <div class="p-3 position-relative">
-                                          <div class="list-card-body">
-                                              <h6 class="mb-1"><a href="#" class="text-black">{{ product.name }}</a></h6>
-                                              <p class="text-gray mb-2">{{ product.category }}</p>
-                                              <p class="text-gray time mb-0"><a class="btn btn-link btn-sm pl-0 text-black pr-0" href="#">{{ product.price }} so'm</a> <span class="badge badge-success">NEW</span> <span class="float-right"> 
-                                                  <a class="btn btn-outline-secondary btn-sm" href="#">ADD</a>
-                                              </span>
-                                              </p>
-                                          </div>
-                                      </div>
-                                  </div>
+               <li class="nav-item">
+                  <a class="nav-link" id="pills-restaurant-info-tab" data-toggle="pill" href="#pills-restaurant-info"
+                     role="tab" aria-controls="pills-restaurant-info" aria-selected="false">Info</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" id="pills-book-tab" data-toggle="pill" href="#pills-book" role="tab"
+                     aria-controls="pills-book" aria-selected="false">Xabar yo'llash</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" id="pills-reviews-tab" data-toggle="pill" href="#pills-reviews" role="tab"
+                     aria-controls="pills-reviews" aria-selected="false">Izohlar va Reyting</a>
+               </li>
+            </ul>
+         </div>
+      </div>
+   </div>
+</section>
+<section class="offer-dedicated-body pt-2 pb-2 mt-4 mb-4">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-8">
+            <div class="offer-dedicated-body-left">
+               <div class="tab-content" id="pills-tabContent">
+                  <div class="tab-pane fade show active" id="pills-order-online" role="tabpanel"
+                     aria-labelledby="pills-order-online-tab">
+                     <div id="#menu" class="bg-white rounded shadow-sm p-4 mb-4 explore-outlets">
+                        <h5 class="mb-4">Tavsiya etamiz</h5>
+                        <form class="explore-outlets-search mb-4">
+                           <div class="input-group">
+                              <input type="text" placeholder="Ovqat nomini kiriting " class="form-control" name="q">
+                              <div class="input-group-append">
+                                 <button type="submit" class="btn btn-link">
+                                    <i class="icofont-search"></i>
+                                 </button>
                               </div>
+                           </div>
+                        </form>
+                        <h6 class="mb-3">{{ place.name}} da mavjud mahsulotlar kategoriyasi <span
+                              class="badge badge-success"></span></h6>
+                        <div class="owl-carousel owl-carousel-category owl-theme">
+                           {% for cat in categories1 %}
+                           <div class="item">
+                              <div class="osahan-category-item">
+                                 <a href="{% url 'showcat' place.id cat.id %}">
+                                    <img class="img-fluid" src="{{ cat.subcat_photo.url }}" alt="">
+                                    <h6>{{ cat.subcat_name }}</h6>
+                                 </a>
+                              </div>
+                           </div>
+                           {% endfor %}
+
+                        </div>
+                     </div>
+                     <div class="row">
+                        <h5 class="mb-4 mt-3 col-md-12">Best Sellers</h5>
+                        {% for product in products %}
+                        <div class="col-md-4 col-sm-6 mb-4">
+                           <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
+                              <div class="list-card-image">
+                                 <div class="star position-absolute"><span class="badge badge-success"><i
+                                          class="icofont-star"></i> 3.1 (300+)</span></div>
+                                 <div class="favourite-heart text-danger position-absolute" value="{{ product.id}}"
+                                    id="heart"><a href="#"><i class="icofont-heart"></i></a></div>
+                                 <div class="member-plan position-absolute"><span
+                                       class="badge badge-dark">Promoted</span></div>
+                                 <a href="#">
+                                    <img src="{{ product.photo.url }}" alt="Ürün Fotoğrafı" style="width: 100%; height: 150px;">
+                                 </a>
+                              </div>
+                              <div class="p-3 position-relative">
+                                 <div class="list-card-body">
+                                    <h6 class="mb-1"><a href="#" class="text-black">{{ product.name }}</a></h6>
+                                    <p class="text-gray mb-2">{{ product.category }}</p>
+                                    <p class="text-gray time mb-0"><a class="btn btn-link btn-sm pl-0 text-black pr-0"
+                                          href="#">{{ product.price }} so'm</a> <span
+                                          class="badge badge-success">NEW</span> <span class="float-right">
+                                          <a class="btn btn-outline-secondary btn-sm" href="#">ADD</a>
+                                       </span>
+                                    </p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        {% endfor %}
+                     </div>
+
+                  </div>
+
+                  <div class="tab-pane fade" id="pills-restaurant-info" role="tabpanel"
+                     aria-labelledby="pills-restaurant-info-tab">
+                     <div id="restaurant-info" class="bg-white rounded shadow-sm p-4 mb-4">
+                        <div class="address-map float-right ml-5">
+
+                        </div>
+                        <h5 class="mb-4">{{place.name}} haqida </h5>
+                        <p class="mb-3">Manzil
+                           <br> {{place.address}}
+                        </p>
+                        <p class="mb-3">{{place.name}} haqida qisqacha
+                           <br> {{place.description}}
+                        </p>
+                        <p class="mb-2 text-black"><i class="icofont-phone-circle text-primary mr-2"></i>+998916624222
+                        </p>
+                        <p class="mb-2 text-black"><i class="icofont-email text-primary mr-2"></i> farmusic@inbox.ru</p>
+                        <p class="mb-2 text-black"><i class="icofont-clock-time text-primary mr-2"></i> 08:00-20:00
+                           <span class="badge badge-success"> OPEN NOW </span>
+                        </p>
+
+                     </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-book" role="tabpanel" aria-labelledby="pills-book-tab">
+                     <div id="book-a-table" class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
+                        <h5 class="mb-4">Book A Table</h5>
+                        <form action="" method="post">
+                           {% csrf_token %}
+                           {{ formContact|crispy }}
+                           <div class="form-group text-right">
+                              <button class="btn btn-primary" type="submit"> Yuborish </button>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-reviews-tab">
+                     <div id="ratings-and-reviews"
+                        class="bg-white rounded shadow-sm p-4 mb-4 clearfix restaurant-detailed-star-rating">
+                        <span class="star-rating float-right">
+                           {% if result1 == 1%}
+                           <a href="#"><i class="icofont-ui-rating icofont-2x active"></i></a>
+                           {% elif result1 == 2%}
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+
+                           {% elif result1 == 3%}
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+
+                           {% elif result1 == 4%}
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+                           {% elif result1 == 5%}
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+                           <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
+                           {% endif %}
+                        </span>
+                        <h5 class="mb-0 pt-1">Reyting</h5>
+                     </div>
+
+                     <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
+                        <h5 class="mb-1">Barcha sharxlar va baholar</h5>
+                        {% for comment in place.comments.all%}
+                        <div class="reviews-members pt-4 pb-4">
+                           <div class="media">
+                              <a href="#"><img alt="" src="{{ comment.user.image.url}}" class="mr-3 rounded-pill"></a>
+                              <div class="media-body">
+                                 <div class="reviews-members-header">
+                                    <span class="star-rating float-right">
+                                       {% if comment.stars_given == 1 %}
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       {% elif comment.stars_given == 2%}
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       {% elif comment.stars_given == 3%}
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       {% elif comment.stars_given == 4%}
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       {% elif comment.stars_given == 5%}
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+                                       <a href="#"><i class="icofont-ui-rating active"></i></a>
+
+                                       {% endif %}
+                                    </span>
+                                    {% if comment.user.last_name %}
+                                    <h6 class="mb-1"><a class="text-black" href="#">{{ comment.user.first_name }}</a>
+                                    </h6>
+                                    {% else %}
+                                    <h6 class="mb-1"><a class="text-black" href="#">{{ comment.user }}</a></h6>
+                                    {% endif %}
+                                    <p class="text-gray">{{ comment.created_at}}</p>
+                                 </div>
+                                 <div class="reviews-members-body">
+                                    <p>{{ comment.comment}} </p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        {% endfor%}
+                        <hr>
+
+                        <form action="" method="post">
+                           {% csrf_token %}
+
+                           {{ formComment|crispy }}
+
+                           <div class="form-group">
+                              <button class="btn btn-primary btn-sm" type="submit">Submit Comment</button>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-4">
+            <!-- <div class="pb-2">
+               <div
+                  class="bg-white rounded shadow-sm text-white mb-4 p-4 clearfix restaurant-detailed-earn-pts card-icon-overlap">
+                  <img class="img-fluid float-left mr-3" src="{% static 'my_app/img/earn-score-icon.png'%}">
+                  <h6 class="pt-0 text-primary mb-1 font-weight-bold">OFFER</h6>
+                  <p class="mb-0">60% off on orders above $99 | Use coupon <span
+                        class="text-danger font-weight-bold">OSAHAN50</span></p>
+                  <div class="icon-overlap">
+                     <i class="icofont-sale-discount"></i>
+                  </div>
+               </div>
+            </div> -->
+
+            <div class='border bg-white' id="accordion">
+
+               <div class="filters-card border-bottom p-4">
+                  <div class="filters-card-header" id="headingTwo">
+                     <h6 class="mb-0">
+                        <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapsetwo"
+                           aria-expanded="true" aria-controls="collapsetwo">
+                           {{place.name}}da mavjud mahsulotlar
+                           <i class="icofont-arrow-down float-right"></i>
+                        </a>
+                     </h6>
+                  </div>
+                  <div id="collapsetwo" class="collapse show" >
+                     <div class="filters-card-body card-shop-filters">
+                        <aside class="wedget__categories poroduct--tag">
+
+                           <ul class="list-inline">
+                              {% for cat in categories1 %}
+                              <li class="mb-2 w-100"><a class="text-secondary w-100 d-flex justify-content-between"
+                                    href="{% url 'showcat' place.id cat.id %}">{{ cat.subcat_name}}<span
+                                       style="text-aligin: right" class="text-sm-end d-flex">(
+                                       {{ cat.products.count}})</span></a></li>
                               {% endfor %}
-                           </div>
-
-                        </div>
-                        
-                        <div class="tab-pane fade" id="pills-restaurant-info" role="tabpanel" aria-labelledby="pills-restaurant-info-tab">
-                           <div id="restaurant-info" class="bg-white rounded shadow-sm p-4 mb-4">
-                              <div class="address-map float-right ml-5">
-                                
-                              </div>
-                              <h5 class="mb-4">{{place.name}}  haqida </h5>
-                              <p class="mb-3">Manzil
-                                 <br> {{place.address}}
-                              </p>
-                              <p class="mb-3">{{place.name}} haqida qisqacha 
-                                 <br> {{place.description}}
-                              </p>
-                              <p class="mb-2 text-black"><i class="icofont-phone-circle text-primary mr-2"></i>+998916624222</p>
-                              <p class="mb-2 text-black"><i class="icofont-email text-primary mr-2"></i> farmusic@inbox.ru</p>
-                              <p class="mb-2 text-black"><i class="icofont-clock-time text-primary mr-2"></i> 08:00-20:00
-                                 <span class="badge badge-success"> OPEN NOW </span>
-                              </p>
-                              
-                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="pills-book" role="tabpanel" aria-labelledby="pills-book-tab">
-                           <div id="book-a-table" class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
-                              <h5 class="mb-4">Book A Table</h5>
-                              <form action="" method="post">
-                                 {% csrf_token %}
-                                 {{ formContact|crispy }}
-                                 <div class="form-group text-right">
-                                    <button class="btn btn-primary" type="submit"> Yuborish </button>
-                                 </div>
-                              </form>
-                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-reviews-tab">
-                           <div id="ratings-and-reviews" class="bg-white rounded shadow-sm p-4 mb-4 clearfix restaurant-detailed-star-rating">
-                              <span class="star-rating float-right">
-                                 {% if result1 == 1%}
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x active"></i></a>
-                                     {% elif result1 == 2%}
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-
-                                     {% elif result1 == 3%}
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-
-                                     {% elif result1 == 4%}
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                                     {% elif result1 == 5%}
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                                     <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                                 {% endif %}
-                             </span>
-                              <h5 class="mb-0 pt-1">Reyting</h5>
-                           </div>
-                           
-                           <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
-                              <h5 class="mb-1">Barcha sharxlar va baholar</h5>
-                              {% for comment in place.comments.all%}
-                              <div class="reviews-members pt-4 pb-4">
-                                 <div class="media">
-                                    <a href="#"><img alt="" src="{{ comment.user.image.url}}" class="mr-3 rounded-pill"></a>
-                                    <div class="media-body">
-                                       <div class="reviews-members-header">
-                                          <span class="star-rating float-right">
-                                          {% if comment.stars_given == 1  %}
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          {% elif comment.stars_given == 2%}
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          {% elif comment.stars_given == 3%}
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          {% elif comment.stars_given == 4%}
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          {% elif comment.stars_given == 5%}
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                          <a href="#"><i class="icofont-ui-rating active"></i></a>
-
-                                          {% endif  %}
-                                          </span>
-                                          {% if comment.user.last_name %}
-                                          <h6 class="mb-1"><a class="text-black" href="#">{{ comment.user.first_name }}</a></h6>
-                                          {% else %}
-                                          <h6 class="mb-1"><a class="text-black" href="#">{{ comment.user }}</a></h6>
-                                          {% endif %}
-                                          <p class="text-gray">{{ comment.created_at}}</p>
-                                       </div>
-                                       <div class="reviews-members-body">
-                                          <p>{{ comment.comment}} </p>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                              {% endfor%}
-                              <hr>
-                              
-                              <form action="" method="post">
-                                 {% csrf_token %}
-
-                                 {{ formComment|crispy }}
-                                  
-                                  <div class="form-group">
-                                      <button class="btn btn-primary btn-sm" type="submit">Submit Comment</button>
-                                  </div>
-                              </form>
-                          </div>
-                        </div>
+                           </ul>
+                        </aside>
                      </div>
                   </div>
                </div>
-               <div class="col-md-4">
-                  <div class="pb-2">
-				  <div class="bg-white rounded shadow-sm text-white mb-4 p-4 clearfix restaurant-detailed-earn-pts card-icon-overlap">
-                     <img class="img-fluid float-left mr-3" src="{% static 'my_app/img/earn-score-icon.png'%}">
-                     <h6 class="pt-0 text-primary mb-1 font-weight-bold">OFFER</h6>
-                     <p class="mb-0">60% off on orders above $99 | Use coupon <span class="text-danger font-weight-bold">OSAHAN50</span></p>
-                     <div class="icon-overlap">
-                        <i class="icofont-sale-discount"></i>
+               <div class="filters-card border-bottom p-4">
+                  <div class="filters-card-header" id="headingCategory">
+                     <h6 class="mb-0">
+                        <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapseFeature"
+                           aria-expanded="true" aria-controls="collapseFeature">
+                           Boshqa ovqatlanish maskanlari <i class="icofont-arrow-down float-right"></i>
+                        </a>
+                     </h6>
+                  </div>
+                  <div id="collapseFeature"  >
+                     <div class="filters-card-body card-shop-filters">
+                        <aside class="wedget__categories poroduct--tag">
+                           <ul class="list-inline">
+                              {% for cat in restaurants %}
+                                 <li class="mb-2 w-100"><a class="text-secondary w-100 d-flex justify-content-between" href="{% url 'detail' cat.id %}">{{ cat.name}}<span style="text-aligin: right" class="text-sm-end d-flex">({{ cat.products1.count }})</span></a></li>
+                              {% endfor %}
+                           </ul>
+                        </aside>
                      </div>
                   </div>
-				  </div>
-
-                  <div class='border bg-white' id="accordion">
-                           
-                           <div class="filters-card border-bottom p-4">
-                              <div class="filters-card-header" id="headingTwo">
-                                 <h6 class="mb-0">
-                                    <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="true" aria-controls="collapsetwo">
-                                       {{place.name}}da mavjud mahsulotlar 
-                                    <i class="icofont-arrow-down float-right"></i>
-                                    </a>
-                                 </h6>
-                              </div>
-                              <div id="collapsetwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
-                                 <div class="filters-card-body card-shop-filters">
-                                    <aside class="wedget__categories poroduct--tag">
-
-                                       <ul class="list-inline">
-                                          {% for cat in categories1 %}
-                                          <li class="mb-2 w-100"><a class="text-secondary w-100 d-flex justify-content-between" href="{% url 'showcat' place.id cat.id %}">{{ cat.subcat_name}}<span style="text-aligin: right" class="text-sm-end d-flex">({{ cat.products.count }})</span></a></li>
-                                          {% endfor %}
-                                       </ul>
-                                    </aside>  
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="filters-card border-bottom p-4">
-                              <div class="filters-card-header" id="headingCategory">
-                                 <h6 class="mb-0">
-                                    <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapseFeature" aria-expanded="true" aria-controls="collapseFeature">
-                                    Boshqa ovqatlanish maskanlari  <i class="icofont-arrow-down float-right"></i>
-                                    </a>
-                                 </h6>
-                              </div>
-                              <div id="collapseFeature" class="collapse" aria-labelledby="headingCategory" data-parent="#accordion">
-                                 <div class="filters-card-body card-shop-filters">
-                                    <aside class="wedget__categories poroduct--tag">
-
-                                       <ul class="list-inline">
-                                          {% for cat in restaurants %}
-                                          <li class="mb-2"><a class="text-secondary" href="{% url 'detail' cat.id %}">{{ cat.name}}</a></li>
-                                          {% endfor %}
-                                       </ul>
-                                    </aside> 
-                                 </div>
-                              </div>
-                           </div> 
-                        </div>
-				  
-                        <div class="text-center pt-2 mb-4">
-                        <img class="img-fluid" src="https://dummyimage.com/352x600/ccc/ffffff.png'&text=Google+ads">
-                        </div>
-				  
                </div>
             </div>
          </div>
-      </section>
-      
+      </div>
+   </div>
+</section>
 
-      
-     
-     {% endblock content %}
+
+
+
+{% endblock content %}

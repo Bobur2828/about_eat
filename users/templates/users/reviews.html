@@ -3,112 +3,76 @@
 {% block content%}
             <main>
                <div class="container-fluid">
-                  <h1 class="mt-4">Reviews</h1>
                   <ol class="breadcrumb mb-4">
                      <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
                      <li class="breadcrumb-item active">Reviews</li>
                   </ol>
                   <div class="row">
                      <div class="col-xl-12">
+                        {% for comment in comments %}
                         <div class="card mb-4 order-list">
                            <div class="gold-members p-4">
                               <a href="#">
                               </a>
                               <div class="media">
                                  <a href="#">
-                                 <img class="mr-4" src="img/3.jpg" alt="Generic placeholder image">
+                                 <img class="mr-4" src="{{comment.user.image.url }}" alt="Generic placeholder image">
+                                 <img class="mr-4" src="{{comment.places.image.url }}" alt="Generic placeholder image">
                                  </a>
                                  <div class="media-body">
                                     <a href="#">
-                                    <span class="float-right text-success">Mon, Nov 12, 7:18 PM <i class="feather-clock text-success"></i></span>
+                                    <span class="float-right text-success">{{comment.created_at}} <i class="feather-clock text-success"></i></span>
                                     </a>
-                                    <h6 class="mb-1">La Monnalisa</h6>
-                                    <p class="text-black mb-3"><i class="feather-user"></i> by M.Twain
+                                    <h6 class="mb-1">{{comment.places.name}}</h6>
+                                    <p class="text-black mb-3"><i class="feather-user"></i> {{comment.user.first_name}}
                                     </p>
-                                    <p class="text-black-50">Lorem ipsum dolor sit amet, dolores mandamus moderatius ea ius, sed civibus vivendum imperdiet ei, amet tritani sea id. Ut veri diceret fierent mei, qui facilisi suavitate euripidis ad. In vim mucius menandri convenire, an brute zril vis. Ancillae delectus necessitatibus no eam, at porro solet veniam mel, ad everti nostrud vim. Eam no menandri pertinacia deterruisset.
+                                    <p class="text-black-50">{{comment.comment}}
                                     </p>
                                     <hr>
                                     <div class="float-right">
-                                       <a href="#0" class="btn btn-sm btn-success" data-toggle="modal" data-target="#edit_booking"><i class="fa fa-fw fa-reply"></i> Reply to this review</a>
-                                       <a href="#0" class="btn btn-sm btn-danger"><i class="feather-trash"></i> Cancel</a>
+                                       {% if user.is_superuser %}
+                                       <a href="{% url 'users:delete_comment' comment.id %}" class="btn btn-sm btn-danger" ><i class="feather-trash"></i> O'chirish </a>
+                                       {% endif %}
                                     </div>
-                                    <p class="mb-0 text-dark pt-2"><span class="text-dark font-weight-bold"> Rate</span>  <span class="bg-warning px-2 py-1 rounded ml-1"> 8.5 </span>
+                                    <p class="mb-0 text-dark pt-2"><span class="text-dark font-weight-bold"> Baho:</span>  <span class="bg-warning px-2 py-1 rounded ml-1"> {{ comment.stars_given}}</span>
                                     </p>
                                  </div>
                               </div>
                            </div>
                         </div>
+                        {% endfor %}
                         <div class="card mb-4 order-list">
                            <div class="gold-members p-4">
                               <a href="#">
                               </a>
                               <div class="media">
                                  <a href="#">
-                                 <img class="mr-4" src="img/4.jpg" alt="Generic placeholder image">
+                                    <img class="mr-4" src="{{user.image.url }}" alt="Generic placeholder image">
+                                    <img class="mr-4" src="{{comments.2.places.image.url }}" alt="Generic placeholder image">
                                  </a>
                                  <div class="media-body">
                                     <a href="#">
                                     <span class="float-right text-success">Mon, Nov 09, 7:18 PM <i class="feather-clock text-success"></i></span>
                                     </a>
-                                    <h6 class="mb-1">Da Alfredo</h6>
-                                    <p class="text-black mb-3"><i class="feather-user"></i> by M.Giuliani
-                                    </p>
-                                    <p class="text-black-50">Ex omnis error aliquam quo, eu eos atqui accusam, ex nec sensibus erroribus principes. No pro albucius eloquentiam accommodare. Mei id illud posse persius. Nec eu dico lucilius delicata, qui propriae voluptaria eu.
-                                    </p>
-                                    <hr>
-                                    <div class="float-right">
-                                       <a href="#0" class="btn btn-sm btn-success" data-toggle="modal" data-target="#edit_booking"><i class="fa fa-fw fa-reply"></i> Reply to this review</a>
-                                       <a href="#0" class="btn btn-sm btn-danger"><i class="feather-trash"></i> Cancel</a>
-                                    </div>
-                                    <p class="mb-0 text-dark pt-2"><span class="text-dark font-weight-bold"> Rate</span>  <span class="bg-warning px-2 py-1 rounded ml-1"> 9.5 </span>
-                                    </p>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="card mb-4 order-list">
-                           <div class="gold-members p-4">
-                              <a href="#">
-                              </a>
-                              <div class="media">
-                                 <a href="#">
-                                 <img class="mr-4" src="img/5.jpg" alt="Generic placeholder image">
-                                 </a>
-                                 <div class="media-body">
-                                    <a href="#">
-                                    <span class="float-right text-success">Mon, Nov 09, 7:18 PM <i class="feather-clock text-success"></i></span>
-                                    </a>
-                                    <h6 class="mb-1">Sushi Gold</h6>
-                                    <p class="text-black mb-3"><i class="feather-user"></i> by  G.Lukas
+                                    <h6 class="mb-1">Evos</h6>
+                                    <p class="text-black mb-3"><i class="feather-user"></i> Test User
                                     </p>
                                     <p class="text-black-50">Cum id mundi admodum menandri, eum errem aperiri at. Ut quas facilis qui, euismod admodum persequeris cum at. Summo aliquid eos ut, eum facilisi salutatus ne. Mazim option abhorreant ne his. Mel simul iisque albucius at, probatus indoctum efficiendi mei ei. Veniam percipit ei sea.
                                     </p>
                                     <hr>
                                     <div class="float-right">
-                                       <a href="#0" class="btn btn-sm btn-success" data-toggle="modal" data-target="#edit_booking"><i class="fa fa-fw fa-reply"></i> Reply to this review</a>
-                                       <a href="#0" class="btn btn-sm btn-danger"><i class="feather-trash"></i> Cancel</a>
+                                       <a href="#0" class="btn btn-sm btn-danger"><i class="feather-trash"></i> O'chirish</a>
                                     </div>
-                                    <p class="mb-0 text-dark pt-2"><span class="text-dark font-weight-bold"> Rate</span>  <span class="bg-warning px-2 py-1 rounded ml-1"> 9.5 </span>
+                                    <p class="mb-0 text-dark pt-2"><span class="text-dark font-weight-bold"> Baho</span>  <span class="bg-warning px-2 py-1 rounded ml-1"> 5 </span>
                                     </p>
                                  </div>
                               </div>
                            </div>
                         </div>
-                        <nav aria-label="Page navigation example">
-                           <ul class="pagination pagination-sm mb-4 justify-content-center">
-                              <li class="page-item disabled">
-                                 <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                              </li>
-                              <li class="page-item"><a class="page-link" href="#">1</a></li>
-                              <li class="page-item"><a class="page-link" href="#">2</a></li>
-                              <li class="page-item"><a class="page-link" href="#">3</a></li>
-                              <li class="page-item">
-                                 <a class="page-link" href="#">Next</a>
-                              </li>
-                           </ul>
-                        </nav>
+                        
                      </div>
                   </div>
                </div>
             </main>
+            
            {% endblock content%}

@@ -1,109 +1,58 @@
 {% extends 'users/base.html' %}
 {% load static %}
 {% block content%}
-      <div id="layoutSidenav_content">
-         <main>
-            <div class="container-fluid">
-               <h1 class="mt-4">Shaxsiy kabinet</h1>
-               <ol class="breadcrumb mb-4">
-                  <li class="breadcrumb-item active">Shaxsiy kabinet</li>
-               </ol>
-               <div class="row">
-                  <div class="col-xl-12">
-                     <div class="card mb-4 order-list">
-                        <div class="gold-members p-4">
-                           <a href="#">
-                           </a>
-                           <div class="row">
-                              <div class="col-md-4">
-                                 <img class="img-profile rounded-circle" src="{{user.image.url }}">
+{% load crispy_forms_tags %}
 
-                                 <div class="form-group">
-                                    <label>Your photo</label>
-
-                                    <form action="/file-upload" class="dropzone dz-clickable">
-                                       <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
-
-                                    </form>
-                                 </div>
-                              </div>
-                              <div class="col-md-8 add_top_30">
-                                 <div class="row">
-                                    <div class="col-md-6">
-                                       <div class="form-group">
-                                          <label>Name</label>
-                                          <input type="text" class="form-control" placeholder="Your name">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                       <div class="form-group">
-                                          <label>Last name</label>
-                                          <input type="text" class="form-control" placeholder="Your last name">
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <!-- /row-->
-                                 <!-- /row-->
-                                 <div class="row">
-                                    <div class="col-md-6">
-                                       <div class="form-group">
-                                          <label>Telephone</label>
-                                          <input type="text" class="form-control" placeholder="Your telephone number">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                       <div class="form-group">
-                                          <label>Email</label>
-                                          <input type="email" class="form-control" placeholder="Your email">
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <!-- /row-->
-                                 <div class="row">
-                                    <div class="col-md-12">
-                                       <div class="form-group">
-                                          <label>Personal info</label>
-                                          <textarea style="height:100px;" class="form-control" placeholder="Personal info"></textarea>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <!-- /row-->
-                              </div>
-                           </div>
-                        </div>
-                     </div>
+<div id="layoutSidenav_content">
+   <main>
+      <div class="container-fluid">
+         <h1 class="mt-4">Shaxsiy kabinet</h1>
+         <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Shaxsiy kabinet</li>
+         </ol>
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="card mb-4 order-list">
+                  <div class="gold-members p-4">
+                     <a href="#">
+                     </a>
                      <div class="row">
-                        <div class="col-md-6">
-                           <div class="card mb-4 order-list">
-                              <div class="gold-members">
-                                 <div class="box_general padding_bottom">
-                                    <div class="header_box version_2 border-bottom p-3">
-                                       <h6 class="m-0"><i class="fa fa-lock text-muted mr-2"></i>Change password</h6>
-                                    </div>
-                                    <div class="p-3">
-                                       <div class="form-group">
-                                          <label>Old password</label>
-                                          <input class="form-control" type="password">
-                                       </div>
-                                       <div class="form-group">
-                                          <label>New password</label>
-                                          <input class="form-control" type="password">
-                                       </div>
-                                       <div class="form-group">
-                                          <label>Confirm new password</label>
-                                          <input class="form-control" type="password">
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
+                           <div class="form-group">
+                              
                            </div>
-                        </div>
-                        
-                     </div>
-                     <div class="save mb-2">
-                        <a href="#" class="btn btn-success">Save</a>
+                              <img class="img-profile " src="{{ user.image.url }}"
+                                 style="width: 300px; height: 300px;"> <!-- Rasm o'lchamini 100x100 pikselga sozlaymiz -->
+                           </div>
+                           <div class="col-md-8 add_top_30">
+                           <form action="" method="post" enctype="multipart/form-data" >
+                               {% csrf_token %}
+                               {{ updateform|crispy }}
+                               
+                               <div class="row">
+                                   <div class="col-md-12">
+                                       <div class="form-group">
+                                           <button type="submit" class="btn btn-success">Saqlash</button>
+                                       </div>
+                                   </div>
+                               </div>
+                           </form>
+                       </div>
                      </div>
                   </div>
                </div>
-         </main>
-         {% endblock content%}
+               <div class="row">
+                  <div class="col-md-6">
+                      <form method="post" action="" method="post">
+                          {% csrf_token %}
+                          {{ passwordform |crispy }}
+                           <div class="save" style="width: max-content; margin-left: auto;">
+                              <button type="submit" class="btn btn-success">Saqlash</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+            </div>
+         </div>
+   </main>
+   {% endblock content%}

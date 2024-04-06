@@ -12,6 +12,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from .models import Product, Slider
 from django.db.models import Q
+from django.contrib import messages
+
 def index(request):
     search = request.GET.get('q', '')
     products = Product.objects.select_related('category', 'restaurant').all()
@@ -48,10 +50,13 @@ class DetailView(View):
         formComment = AddCommentForm()
         stars = Comment.objects.filter(places=place)
         star_values = stars.values_list('stars_given', flat=True)
+        search=request.GET.get('q','')
         if star_values:
             result1 = round(sum(star_values) / len(star_values))
         else:
             result1 = 0
+        if search:
+            products = products.filter(name__icontains=search)
         data = {
             'place': place,
             'categories1': categories1,
@@ -60,6 +65,7 @@ class DetailView(View):
             'formComment': formComment,
             'result1': result1,
         }
+
         return render(request, 'my_app/detail2.html', context=data)
 
     def post(self, request, id):
@@ -74,6 +80,8 @@ class DetailView(View):
                 comment=formComment.cleaned_data['comment'],
                 stars_given=formComment.cleaned_data['stars_given'],
             )
+            messages.success(request,(" Sizning sharhingiz qoldirildi "))
+
             return redirect(reverse('detail', kwargs={'id': place.id}))
         
         if formContact.is_valid():
