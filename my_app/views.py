@@ -11,17 +11,24 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .models import Product, Slider
-
+from django.db.models import Q
 def index(request):
     search = request.GET.get('q', '')
-    products = Product.objects.all()
+    products = Product.objects.select_related('category', 'restaurant').all()
     
     if search:
-        products = products.filter(name__icontains=search)
+        products = products.filter(
+            Q(name__icontains=search) | 
+            Q(category__subcat_name__icontains=search)|
+            Q(restaurant__name__icontains=search)
+
+        )
+    
         data = {
-        'products': products,
-    }
-        return render(request,'my_app/showeat.html', context=data)
+            'products': products,
+        }
+    
+        return render(request, 'my_app/showeat.html', context=data)
 
     slider = Slider.objects.all()
     data = {
