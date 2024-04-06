@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Slider,Product,Category,Places,TypePlaces,SubCategory
+from .models import Slider,Product,Category,Places,TypePlaces,SubCategory,Comment
 
-admin.site.register([Slider,SubCategory])
+admin.site.register([Slider,SubCategory,Comment])
 # Register your models here.
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

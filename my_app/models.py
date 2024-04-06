@@ -1,4 +1,7 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+from users.models import User
+from django.utils import timezone
 
 class BaseModel(models.Model):
     data_created = models.DateTimeField(auto_now_add=True)
@@ -28,7 +31,7 @@ class Places(models.Model):
     description = models.TextField()
     address = models.CharField(max_length=255)
     image = models.ImageField(upload_to='place_images/')
-    type_place = models.ForeignKey('TypePlaces', verbose_name='Ovqatlanish maskani turini tanlang', on_delete=models.CASCADE)
+    type_place = models.ForeignKey('TypePlaces', verbose_name='Ovqatlanish maskani turini tanlang', on_delete=models.CASCADE, related_name='type_places')
     def __str__(self):
         return self.name
     
@@ -49,4 +52,13 @@ class TypePlaces(BaseModel):
         return self.name
 
 
-
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    places = models.ForeignKey(Places, on_delete=models.CASCADE, related_name="comments")
+    comment = models.TextField()
+    stars_given = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    def __str__(self):
+        return f"{self.stars_given} "
+    
+    

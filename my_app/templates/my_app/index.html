@@ -15,11 +15,10 @@
                   <div class="form-row">
                      
                      <div class="col-lg-7 col-md-7 col-sm-12 form-group">
-                        <input type="text" placeholder="Maxsulot nomini kiriting " class="form-control form-control-lg">
+                        <input type="text" placeholder="Maxsulot nomini kiriting " class="form-control form-control-lg" name="q">
                      </div>
                      <div class="col-lg-2 col-md-2 col-sm-12 form-group">
-                        <a href="listing.html" class="btn btn-primary btn-block btn-lg btn-gradient">Qiridish</a>
-                        <!--<button type="submit" class="btn btn-primary btn-block btn-lg btn-gradient">Search</button>-->
+                        <button type="submit" class="btn btn-primary btn-block btn-lg btn-gradient">Izlash</button>
                      </div>
                   </div>
                </form>
@@ -29,7 +28,7 @@
                {% for category in categories%}
                <div class="item">
                   <div class="osahan-category-item">
-                     <a href="#">
+                     <a href="{% url 'showcat' category.id%}">
                         <img class="img-fluid" src="{{ category.cat_photo.url }}" alt="">
                         <h6>{{ category.cat_name }}</h6>
                         <p>{{ category.products.count }}</p>
@@ -44,7 +43,7 @@
                <div class="owl-carousel homepage-ad owl-theme">
                   {% for slide in categories%}
                   <div class="item">
-                     <a href="listing.html"><img class="img-fluid rounded" src="{{ slide.cat_photo.url }}"></a>
+                     <a href="{% url 'showcat' slide.id%}"><img class="img-fluid rounded" src="{{ slide.cat_photo.url }}"></a>
                   </div>
                   {% endfor %}
                </div>

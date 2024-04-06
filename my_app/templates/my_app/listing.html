@@ -36,8 +36,8 @@
                                     <aside class="wedget__categories poroduct--tag">
 
                                        <ul class="list-inline">
-                                          {% for cat in categories %}
-                                          <li class="mb-2 w-100"><a class="text-secondary w-100 d-flex justify-content-between" href="{% url 'listing1' cat.id %}">{{ cat.cat_name}}<span style="text-aligin: right" class="text-sm-end d-flex">({{ cat.subcategory.count}})</span></a></li>
+                                          {% for type in typeplaces %}
+                                          <li class="mb-2 w-100"><a class="text-secondary w-100 d-flex justify-content-between" href="{% url 'listplace' type.id %}">{{ type.name}}<span style="text-aligin: right" class="text-sm-end d-flex">({{ type.type_places.count}})</span></a></li>
 
                                           {% endfor %}
                                        </ul>
@@ -105,7 +105,7 @@
                                     <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
                                     <label class="custom-control-label" for="customRadio2">Order Food Online</label>
                                  </div>
-								 <div class="custom-control custom-radio">
+								         <div class="custom-control custom-radio">
                                     <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input" checked="">
                                     <label class="custom-control-label" for="customRadio3">Osahan Eat</label>
                                  </div>
@@ -122,7 +122,7 @@
                      {% for category in categories%}
                      <div class="item">
                         <div class="osahan-category-item">
-                           <a href="#">
+                           <a href="{% url 'showcat' category.id%}">
                               <img class="img-fluid" src="{{ category.cat_photo.url }}" alt="">
                               <h6>{{ category.cat_name }}</h6>
                               <p>{{ category.products.count }}</p>

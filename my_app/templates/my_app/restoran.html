@@ -22,19 +22,19 @@
             <div class="p-3 position-relative">
                 <div class="list-card-body">
                     <!-- Display place name with link to detail page -->
-                    <h6 class="mb-1"><a href="{{ place.detail_url }}" class="text-black">Nomi: {{ place.name }}}</a></h6>
+                    <h6 class="mb-1"><a href="{{ place.detail_url }}" class="text-black">{{ place.name }}</a></h6>
                     <!-- Display cuisine types -->
                     <p class="text-gray mb-3">Manzil: {{ place.address }}</p>
                     <!-- Display estimated delivery time and cost for two -->
                     <p class="text-gray mb-3 time">
-                        <span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 08:00-20:00</span>
-                        <span class="float-right text-black-50"> Turi: {{ place.type_place }} </span>
+                        <span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2">Ish vaqti <i class="icofont-wall-clock"></i> 08:00-20:00</span>
                     </p>
                 </div>
                 <!-- Display offer badge and details -->
                 <div class="list-card-badge">
-                    <span class="badge badge-success">OFFER</span> <small>{{ place.offer_details }}</small>
+                    <span class="badge badge-success">{{ place.type_place.name }}</span>
                 </div>
+                
             </div>
         </div>
     </div>
