@@ -92,3 +92,15 @@ class UserPasswordView(LoginRequiredMixin, PasswordChangeView):
 
 def index(request):
     return render(request,'users/my-profile.html')
+
+def review(request):
+    return render(request,'users/reviews.html')
+
+def index(request):
+    return render(request,'users/my-profile.html')
+
+def index(request):
+    return render(request,'users/my-profile.html')
+
+def index(request):
+    return render(request,'users/my-profile.html')

@@ -72,7 +72,7 @@
                      </a>
                      <div class="dropdown-menu dropdown-menu-right shadow-sm border-0">
                         {% if user.is_authenticated %}
-                        <a class="dropdown-item" href="orders.html#orders"><i class="icofont-food-cart"></i>Mening sahifam</a>
+                        <a class="dropdown-item" href="{% url 'users:profile' %}"><i class="icofont-food-cart"></i>Mening sahifam</a>
                         <a class="dropdown-item" href="{% url 'users:logout'%}"><i class="icofont-sale-discount"></i>Chiqish</a>
                         {% else %}
                         <a class="dropdown-item" href="{% url 'users:login'%}"><i class="icofont-heart"></i> Shaxsiy kabinet</a>
