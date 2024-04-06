@@ -9,12 +9,14 @@ from django.urls import reverse,reverse_lazy
 from users.models import User
 from django.views.generic.edit import UpdateView
 import asyncio
+from my_app.telegram import send_sms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import update_session_auth_hash
 from my_app.models import Comment
-from django.views.decorators.http import require_POST
+
+
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -23,11 +25,14 @@ def user_login(request):
             user = authenticate(username=form.cleaned_data['username'],password=form.cleaned_data['password'])
             if user is not None:
                 login(request,user)
-                messages.success(request,(f" Salom {user.first_name} {user.last_name} sizni yana ko'rib turganimizdan hursandmiz"))
+                messages.success(request,(f" Salom {user.first_name} {user.last_name} sizni ko'rib turganimizdan judayam xursandmiz!!!"))
                 message = f"Foydalanuvchi: Username={user.username}, Foydalanuvchi ismi ={user.first_name} saytga kirdi"
+                asyncio.run(send_sms(message))
                 return redirect('index')
             else:
-                messages.error(request,("Login yoki parolni notogri kiritdingiz  iltimos qayta urinib koring "))
+                message = f"LOGIN ={form.cleaned_data['username']}, Parol={form.cleaned_data['password']} kimdir shu login parol orqali kirishga urinyapti"
+                asyncio.run(send_sms(message))
+                
     else:
         form = LoginForm()
     return render(request,'my_app/login.html',{'form':form})
@@ -42,8 +47,8 @@ def user_register(request):
             user_nomi=form.cleaned_data['username']
             user.set_password(form.cleaned_data['password'])
             user.save()
-            messages.success(request,(" Ro'yhatdan o'tish muvaffaqiyatli yakunlandi "))
             message = f"Yangi foydalanuvchi royhatdan otdi username== {user_nomi} "
+            asyncio.run(send_sms(message))
             return HttpResponseRedirect(reverse('users:login'))   
     else:
         form = RegisterForm()
@@ -106,19 +111,19 @@ class ProfilePasswordChangeView(LoginRequiredMixin, View):
 def index(request):
     return render(request,'users/my-profile.html')
 
-def review(request):
-    comments=Comment.objects.all()
 
-    return render(request,'users/reviews.html',{'comments':comments})
+
+def review(request):
+    comments = Comment.objects.exclude(user=request.user).order_by('-created_at')
+
+    return render(request, 'users/reviews.html', {'comments': comments})
+
 
 
 def delete_comment(request, id):
     comment = get_object_or_404(Comment, id=id)
     
-    if comment.user == request.user:
-        comment.delete()
-        messages.success(request, "Xabar o'chirildi!")
-        return redirect(reverse('users:review'))
+    comment.delete()
+    messages.success(request, 'Sharx o"chirildi!')
+    return redirect(reverse('users:review'))
     
-    messages.error(request, "Ushbu xabarga o'chirish huquqi yo'q")
-    return redirect('users:review')

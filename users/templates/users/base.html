@@ -133,26 +133,21 @@
   </div>
 </div>
 <!-- Edit Booking Modal -->
-<div class="modal fade" id="edit_booking" tabindex="-1" role="dialog" aria-labelledby="edit_bookingLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-     <div class="modal-content">
-        <div class="modal-header">
-           <h5 class="modal-title" id="edit_bookingLabel">Reply to review</h5>
-           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-           <span aria-hidden="true">×</span>
-           </button>
-        </div>
-        <div class="modal-body">
-           <div class="form-group m-0">
-              <textarea cols="60" rows="6" class="form-control" spellcheck="false"></textarea>
-           </div>
-        </div>
-        <div class="modal-footer">
-           <a class="btn btn-primary btn-block" href="#">Reply</a>
-        </div>
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered">
+     <div class="modal-content" style="border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);">
+       <div class="modal-header" style="background-color: #f8f9fa; border-bottom: none; border-radius: 8px 8px 0 0;">
+         <h5 class="modal-title" id="messageModalLabel" style="font-size: 20px; color: #333333;">Xabar</h5>
+       </div>
+       <div class="modal-body" id="messageModalBody" style="padding: 20px;">
+         <p style="font-size: 18px;">{{ message }}</p>
+       </div>
+       <div class="modal-footer" style="border-top: none; border-radius: 0 0 8px 8px;">
+         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 14px;">Yopish</button>
+       </div>
      </div>
-  </div>
-</div>
+   </div>
+ </div>
 <!-- Jquery -->
 <script src="{% static 'users/vendor/jquery/jquery.min.js' %}"></script>
 <!-- Fontawesome -->
@@ -178,7 +173,27 @@
   $('input.date-pick').datepicker();
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      
+{% if messages %}
+      <script>
+         document.addEventListener('DOMContentLoaded', function() {
+            var messageModalBody = document.getElementById('messageModalBody');
+
+            {% for message in messages %}
+            var messageParagraph = document.createElement('p');
+            messageParagraph.textContent = "{{ message }}";
+            messageModalBody.appendChild(messageParagraph);
+            {% endfor %}
+
+            var messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+            messageModal.show();
+
+            // Modal oynasini sekunddan so'ng yopish
+            setTimeout(function() {
+            messageModal.hide(); // Modalni yopish
+            }, 3000); // 3000 milisekund (3 sekund) dan so'ng yopiladi, kerakli vaqtni o'zgartiring
+         });
+      </script>
+{% endif %}      
 
 </body>
 </html>

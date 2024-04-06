@@ -13,6 +13,7 @@ from django.urls import reverse
 from .models import Product, Slider
 from django.db.models import Q
 from django.contrib import messages
+from users.models import User
 
 def index(request):
     search = request.GET.get('q', '')
@@ -74,13 +75,19 @@ class DetailView(View):
         place = get_object_or_404(Places, id=id)
         
         if formComment.is_valid():
+            if request.user.is_authenticated:
+                user = request.user  
+            else:
+                anonymous_user = User.objects.get_or_create(username='Nomalum Mijoz')[0]
+                user = anonymous_user
+            
             Comment.objects.create(
-                user=request.user,
+                user=user,
                 places=place,
                 comment=formComment.cleaned_data['comment'],
                 stars_given=formComment.cleaned_data['stars_given'],
             )
-            messages.success(request,(" Sizning sharhingiz qoldirildi "))
+            messages.success(request, "Sizning sharhingiz qoldirildi")
 
             return redirect(reverse('detail', kwargs={'id': place.id}))
         
