@@ -101,7 +101,7 @@
                         </div>
                      </div>
                      <div class="row">
-                        <h5 class="mb-4 mt-3 col-md-12">Best Sellers</h5>
+                        <h5 class="mb-4 mt-3 col-md-12">Menyu</h5>
                         {% for product in products %}
                         <div class="col-md-4 col-sm-6 mb-4">
                            <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
@@ -111,7 +111,7 @@
                                  <div class="favourite-heart text-danger position-absolute" value="{{ product.id}}"
                                     id="heart"><a href="#"><i class="icofont-heart"></i></a></div>
                                  <div class="member-plan position-absolute"><span
-                                       class="badge badge-dark">Promoted</span></div>
+                                       class="badge badge-dark">Yangilik</span></div>
                                  <a href="#">
                                     <img src="{{ product.photo.url }}" alt="Ürün Fotoğrafı" style="width: 100%; height: 150px;">
                                  </a>
@@ -119,11 +119,12 @@
                               <div class="p-3 position-relative">
                                  <div class="list-card-body">
                                     <h6 class="mb-1"><a href="#" class="text-black">{{ product.name }}</a></h6>
-                                    <p class="text-gray mb-2">{{ product.category }}</p>
+                                    <p class="text-gray mb-2">Kategoriya:{{ product.category }}</p>
+                                    <p class="text-gray mb-2">{{ product.description }}</p>
+
                                     <p class="text-gray time mb-0"><a class="btn btn-link btn-sm pl-0 text-black pr-0"
                                           href="#">{{ product.price }} so'm</a> <span
                                           class="badge badge-success">NEW</span> <span class="float-right">
-                                          <a class="btn btn-outline-secondary btn-sm" href="#">ADD</a>
                                        </span>
                                     </p>
                                  </div>
@@ -255,7 +256,7 @@
                            {{ formComment|crispy }}
 
                            <div class="form-group">
-                              <button class="btn btn-primary btn-sm" type="submit">Submit Comment</button>
+                              <button class="btn btn-primary btn-sm" type="submit">Sharx Qoldirish</button>
                            </div>
                         </form>
                      </div>

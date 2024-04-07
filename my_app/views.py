@@ -6,7 +6,6 @@ from .telegram import send_sms
 import asyncio
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
-from .like import Like
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -75,7 +74,6 @@ class DetailView(View):
             else:
                 anonymous_user = User.objects.get_or_create(username='Nomalum Mijoz')[0]
                 user = anonymous_user
-            
             Comment.objects.create(
                 user=user,
                 places=place,
@@ -110,15 +108,21 @@ class DetailView(View):
 def detail2(request, place_id, cat_id):
     place = get_object_or_404(Places, id=place_id)
     subcategory = get_object_or_404(SubCategory, id=cat_id)
+    category = subcategory.subcat
+    if request.method == 'POST':
+        return DetailView.as_view()(request, id=place_id)
+    else:
+        formContact = ContactForm()
+        formComment = AddCommentForm()
 
-    products = Product.objects.filter(category=subcategory).prefetch_related(
-        'type_place', 'sub', 'category', 'restaurant'
-    )
-
+    categories1 = SubCategory.objects.filter(products__restaurant=place).distinct()
+    products = Product.objects.filter(category=subcategory).select_related('category')
     data = {
         'place': place,
-        'categories1': place.subcategory_set.distinct(),
+        'categories1': categories1,
         'products': products,
+        'formContact': formContact,
+        'formComment': formComment,
     }
     return render(request, 'my_app/detail2.html', context=data)
 
@@ -159,12 +163,6 @@ def showeat(request, id):
     return render(request, 'my_app/showeat1.html', context=data)
 
 
-
-
-
-
-
-
 def listingshow(request,id):
     place=Places.objects.filter(id=id)
     data={
@@ -191,11 +189,6 @@ def showcategory1(request, id):
     return render(request, 'my_app/showeat.html', context=data)
 
 
-
-
-
-
-
 def like_add(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
@@ -207,10 +200,12 @@ def like_add(request):
             liked_products = request.session.get('liked_products', [])
 
             if product_id not in liked_products:
+                messages.success(request, "Mahsulot sevimlilar ro'yhatiga qo'shildi")
+
                 liked_products.append(product_id)
                 request.session['liked_products'] = liked_products
+            else:
+                messages.success(request, "Mahsulot sevimlilar ro'yhatida mavjud")
 
             like_count = len(liked_products)
             return JsonResponse({"like_count": like_count})
-
-    return JsonResponse({"error": "Invalid request"})

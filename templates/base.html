@@ -79,12 +79,10 @@
                                        <img src="{{ product.photo.url }}" alt="Product Image" class="img-fluid mr-3" style="max-width: 100px; height: auto;" />
 
                                        <div class="flex-grow-1">
-                                           <h6 style="margin-bottom: 10px">{{ product.name }}</h6> <br>
-                                           <p class="mb-0 text-secondary">{{ product.restaurant }} </p> <br>
-                                           <p class="mb-0 text-secondary">{{ product.price }} so'm</p>
-
-                                           <p style="margin-left: 150px"><a  href="#"> <i  class="fas fa-trash"></i></a></p>
-                                       </div>
+                                          <h6 class="mb-0">{{ product.name }}</h6>
+                                          <p class="mb-0 text-secondary">{{ product.restaurant }} </p>
+                                          <p class="mb-0 text-secondary">{{ product.price }} so'm</p>
+                                      </div>
                                    </a>
                                </div>
                            {% endfor %}
@@ -93,8 +91,8 @@
                         <div class="dropdown-cart-top-footer border-top p-4">
                            <p class="mb-0 font-weight-bold text-secondary">Jami: <span class="float-right text-dark">{{total_price}} so'm</span></p>
                         </div>
-                        <div class="dropdown-cart-top-footer border-top p-2">
-                           <a class="btn btn-success btn-block btn-lg" href="checkout.html"> Checkout</a>
+                        {% comment %} <div class="dropdown-cart-top-footer border-top p-2"> {% endcomment %}
+                           {% comment %} <a class="btn btn-success btn-block btn-lg" href="checkout.html"> Checkout</a> {% endcomment %}
                         </div>
                      </div>
                   </li>
@@ -191,6 +189,7 @@
                 success: function(response) {
                     if (response && response.like_count !== undefined) {
                         $('#like_items').text(response.like_count);
+                        window.location.reload();
                     } else {
                         console.error('Failed to update like count.');
                     }
@@ -201,27 +200,33 @@
             });
         });
      </script>
-     {% if messages %}
-      <script>
-         document.addEventListener('DOMContentLoaded', function() {
-            var messageModalBody = document.getElementById('messageModalBody');
-
-            {% for message in messages %}
-            var messageParagraph = document.createElement('p');
-            messageParagraph.textContent = "{{ message }}";
-            messageModalBody.appendChild(messageParagraph);
-            {% endfor %}
-
-            var messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
-            messageModal.show();
-
-            // Modal oynasini sekunddan so'ng yopish
-            setTimeout(function() {
-            messageModal.hide(); // Modalni yopish
-            }, 3000); // 3000 milisekund (3 sekund) dan so'ng yopiladi, kerakli vaqtni o'zgartiring
-         });
-      </script>
-{% endif %}
+     <script>
+      {% if messages %}
+      document.addEventListener('DOMContentLoaded', function() {
+          var messageModalBody = document.getElementById('messageModalBody');
+  
+          {% for message in messages %}
+              // Xabar ko'rsatish uchun yangi paragraf elementini yaratish
+              var messageParagraph = document.createElement('p');
+  
+              // Xabarni HTML kodi bilan o'rnating
+              messageParagraph.innerHTML = "{{ message|escapejs }}";
+  
+              // Paragrafni modal oynasiga qo'shish
+              messageModalBody.appendChild(messageParagraph);
+          {% endfor %}
+  
+          // Bootstrap Modalni o'rnating va ko'rsatish
+          var messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+          messageModal.show();
+  
+          // Modal oynasini sekunddan so'ng yopish
+          setTimeout(function() {
+              messageModal.hide(); // Modalni yopish
+          }, 3000); // 3000 milisekund (3 sekund) dan so'ng yopiladi, kerakli vaqtni o'zgartiring
+      });
+      {% endif %}
+  </script>
 
 
      
