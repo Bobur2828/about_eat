@@ -9,7 +9,7 @@
       <meta name="author" content="Askbootstrap">
       <title>Farg'onadagi mazzali taomlar uchun buyurtma</title>
       <!-- Favicon Icon -->
-      <link rel="icon" type="image/png" href="{% static 'my_app/img/favicon.png'%}">
+      <link rel="icon" type="image/png" href="{% static 'my_app/img/favicon.png' %}">
       <!-- Bootstrap core CSS-->
       <link href="{% static 'my_app/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
       <!-- Font Awesome-->
@@ -29,22 +29,11 @@
 
 
    </head>
-   {% if messages %}
-         <div class="container">
-         {% for message in messages %}
-            <div class="alert alert-secondary text-dark alert-dismissible fade show" role="alert" style="background-color: bg-second;">
-               <div style="text-align: center;">{{ message }}</div>
-                        
-                   
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-               </div>
-         {% endfor %}
-         </div>
-   {% endif %}
+   
    <body>
       <nav  class="navbar navbar-expand-lg navbar-light bg-light osahan-nav shadow-sm">
          <div class="container">
-            <a class="navbar-brand" href="index.html"><img alt="logo" src="{% static 'my_app/img/logo.png' %}"></a>
+            <a class="navbar-brand" href="{% url 'index' %}"><img alt="logo" src="{% static 'my_app/img/logo.png' %}"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -54,25 +43,21 @@
                      <a class="nav-link" href="{% url 'index' %}">Bosh sahifa <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="{% url 'listing' %}"><i class="icofont-sale-discount"></i> Restoranlar <span class="badge badge-danger">New</span></a>
+                     <a class="nav-link" href="{% url 'listing' %}"><i class="icofont-sale-discount"></i> Menyu <span class="badge badge-danger">New</span></a>
                   </li>
                   
+                 
                   <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     Pages
-                     </a>
-                     <div class="dropdown-menu dropdown-menu-right shadow-sm border-0">
-                        <a class="dropdown-item" href="{% url 'track_order' %}">Track Order</a>
-                        <a class="dropdown-item" href="{% url 'error' %}">404</a>
-                     </div>
-                  </li>
-                  <li class="nav-item dropdown">
+                     {% if user.is_authenticated %}
                      <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      <img width="30" height="30" alt="Generic placeholder image" src="{{user.image.url }}" class="nav-osahan-pic rounded-pill"> {{user.first_name }}</a>
-                     </a>
+                     {% else %}
+                     <a class="nav-link" href="{% url 'users:login'%}">Shaxsiy kabinet <span class="sr-only"></span></a>
+                     {%endif %}
+                  </a>
                      <div class="dropdown-menu dropdown-menu-right shadow-sm border-0">
                         {% if user.is_authenticated %}
-                        <a class="dropdown-item" href="{% url 'users:profile' %}"><i class="icofont-food-cart"></i>Mening sahifam</a>
+                        <a class="dropdown-item" href="{% url 'users:profile_update' %}"><i class="icofont-food-cart"></i>Mening sahifam</a>
                         <a class="dropdown-item" href="{% url 'users:logout'%}"><i class="icofont-sale-discount"></i>Chiqish</a>
                         {% else %}
                         <a class="dropdown-item" href="{% url 'users:login'%}"><i class="icofont-heart"></i> Shaxsiy kabinet</a>
@@ -92,10 +77,13 @@
                                <div class="mb-3">
                                    <a href="#" class="d-flex align-items-center text-decoration-none">
                                        <img src="{{ product.photo.url }}" alt="Product Image" class="img-fluid mr-3" style="max-width: 100px; height: auto;" />
+
                                        <div class="flex-grow-1">
-                                           <h6 class="mb-0">{{ product.name }}</h6>
-                                           <p class="mb-0 text-secondary">{{ product.restaurant }} </p>
+                                           <h6 style="margin-bottom: 10px">{{ product.name }}</h6> <br>
+                                           <p class="mb-0 text-secondary">{{ product.restaurant }} </p> <br>
                                            <p class="mb-0 text-secondary">{{ product.price }} so'm</p>
+
+                                           <p style="margin-left: 150px"><a  href="#"> <i  class="fas fa-trash"></i></a></p>
                                        </div>
                                    </a>
                                </div>
@@ -114,30 +102,37 @@
             </div>
          </div>
       </nav>
+      
+      <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+           <div class="modal-content" style="border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);">
+             <div class="modal-header" style="background-color: #f8f9fa; border-bottom: none; border-radius: 8px 8px 0 0;">
+               <h5 class="modal-title" id="messageModalLabel" style="font-size: 20px; color: #333333;">Xabar</h5>
+             </div>
+             <div class="modal-body" id="messageModalBody" style="padding: 20px;">
+               <p style="font-size: 18px;">{{ message }}</p>
+             </div>
+             <div class="modal-footer" style="border-top: none; border-radius: 0 0 8px 8px;">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 14px;">Yopish</button>
+             </div>
+           </div>
+         </div>
+       </div>
+       
+       
+
       {% block content %}
       {% endblock content%}
       <section class="footer pt-5 pb-5">
          <div class="container">
             <div class="row">
                <div class="col-md-4 col-12 col-sm-12">
-                  <h6 class="mb-3">Subscribe to our Newsletter</h6>
-                  <form class="newsletter-form mb-1">
-                     <div class="input-group">
-                        <input type="text" placeholder="Please enter your email" class="form-control">
-                        <div class="input-group-append">
-                           <button type="button" class="btn btn-primary">
-                           Subscribe
-                           </button>
-                        </div>
-                     </div>
-                  </form>
-                  <p><a class="text-info" href="register.html">Register now</a> to get updates on <a href="offers.html">Offers and Coupons</a></p>
                   <div class="app">
-                     <p class="mb-2">DOWNLOAD APP</p>
-                     <a href="#">
+                     <p class="mb-2">Ilovalarimizni yuklab oling</p>
+                     <a href="https://t.me/Shax_brend1">
                      <img class="img-fluid" src="{% static 'my_app/img/google.png'%}">
                      </a>
-                     <a href="#">
+                     <a href="https://t.me/Shax_brend1">
                      <img class="img-fluid" src="{% static 'my_app/img/apple.png'%}">
                      </a>
                   </div>
@@ -145,34 +140,16 @@
                <div class="col-md-1 col-sm-6 mobile-none">
                </div>
                <div class="col-md-2 col-6 col-sm-4">
-                  <h6 class="mb-3">About OE</h6>
-                  <ul>
-                     <li><a href="#">About Us</a></li>
-                     <li><a href="#">Culture</a></li>
-                     <li><a href="#">Blog</a></li>
-                     <li><a href="#">Careers</a></li>
-                     <li><a href="#">Contact</a></li>
-                  </ul>
+                  <h6 class="mb-3">Biz haqimizda</h6>
+                  
                </div>
                <div class="col-md-2 col-6 col-sm-4">
-                  <h6 class="mb-3">For Foodies</h6>
-                  <ul>
-                     <li><a href="#">Community</a></li>
-                     <li><a href="#">Developers</a></li>
-                     <li><a href="#">Blogger Help</a></li>
-                     <li><a href="#">Verified Users</a></li>
-                     <li><a href="#">Code of Conduct</a></li>
-                  </ul>
+                  <h6 class="mb-3">Mazali taomlar</h6>
+                  
                </div>
                <div class="col-md-2 m-none col-4 col-sm-4">
-                  <h6 class="mb-3">For Restaurants</h6>
-                  <ul>
-                     <li><a href="#">Advertise</a></li>
-                     <li><a href="#">Add a Restaurant</a></li>
-                     <li><a href="#">Claim your Listing</a></li>
-                     <li><a href="#">For Businesses</a></li>
-                     <li><a href="#">Owner Guidelines</a></li>
-                  </ul>
+                  <h6 class="mb-3">Hamkor restoranlar</h6>
+                  
                </div>
             </div>
          </div>
@@ -180,9 +157,9 @@
       
       <footer class="pt-4 pb-4 text-center">
          <div class="container">
-            <p class="mt-0 mb-0">© Copyright 2020 Osahan Eat. All Rights Reserved</p>
-            <small class="mt-0 mb-0"> Made with <i class="fas fa-heart heart-icon text-danger"></i> by
-            <a class="text-danger" target="_blank" href="https://www.instagram.com/iamgurdeeposahan/">Gurdeep Osahan</a> - <a class="text-primary" target="_blank" href="https://askbootstrap.com/">Ask Bootstrap</a>
+            <p class="mt-0 mb-0">Bu demo sayt NAJOT TALIM  </p>
+            <small class="mt-0 mb-0">o'quvchisi <i class="fas fa-heart heart-icon text-danger"></i> 
+            <a class="text-danger" target="_blank" href="https://t.me/Shax_brend1"> <a class="text-primary" target="_blank" href="https://t.me/Shax_brend1">GULOMOV BOBURJON </a>tomonidan yaratildi</a> 
             </small>
          </div>
       </footer>
@@ -224,5 +201,29 @@
             });
         });
      </script>
+     {% if messages %}
+      <script>
+         document.addEventListener('DOMContentLoaded', function() {
+            var messageModalBody = document.getElementById('messageModalBody');
+
+            {% for message in messages %}
+            var messageParagraph = document.createElement('p');
+            messageParagraph.textContent = "{{ message }}";
+            messageModalBody.appendChild(messageParagraph);
+            {% endfor %}
+
+            var messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+            messageModal.show();
+
+            // Modal oynasini sekunddan so'ng yopish
+            setTimeout(function() {
+            messageModal.hide(); // Modalni yopish
+            }, 3000); // 3000 milisekund (3 sekund) dan so'ng yopiladi, kerakli vaqtni o'zgartiring
+         });
+      </script>
+{% endif %}
+
+
+     
    </body>
 </html>

@@ -29,16 +29,11 @@
    </head>
    <body class="sb-nav-fixed">
       <nav class="sb-topnav navbar navbar-expand navbar-light bg-white shadow-sm">
-         <a class="navbar-brand" href="index.html"><img alt="logo" src="{% static 'users/img/logo.png"></a>
+         <a class="navbar-brand" href="{% url 'index' %}"><img alt="logo" src="{% static 'my_app/img/logo.png' %}"></a>
          <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
          <!-- Navbar Search-->
          <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-            <div class="input-group">
-               <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
-               <div class="input-group-append">
-                  <button class="btn btn-primary" type="button"><i class="feather-search"></i></button>
-               </div>
-            </div>
+           
          </form>
          <!-- Navbar-->
          
@@ -46,25 +41,22 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow ml-1 osahan-profile-dropdown">
                <a class="nav-link dropdown-toggle pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <img class="img-profile rounded-circle" src="{% static 'users/img/user/1.png' %}">
+               <img class="img-profile rounded-circle" src="{{ user.image.url }}">
                </a>
                <!-- Dropdown - User Information -->
                <div class="dropdown-menu dropdown-menu-right shadow-sm">
                   <div class="p-3 d-flex align-items-center">
                      <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="{% static 'users/img/user/1.png' %}" alt="">
+                        <img class="rounded-circle" src="{{ user.image.url }}" alt="">
                         <div class="status-indicator bg-success"></div>
                      </div>
                      <div class="font-weight-bold">
-                        <div class="text-truncate">Gurdeep Osahan</div>
-                        <div class="small text-gray-500">Restaurants Owner</div>
+                        <div class="text-truncate">{{ user.first_name }}</div>
+                        <div class="small text-gray-500">{{ user.last_name }}</div>
                      </div>
                   </div>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="my-profile.html"><i class="feather-edit"></i> My Account</a>
-                  <a class="dropdown-item" href="my-profile.html"><i class="feather-settings"></i> Account Settings</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="sign-in.html"><i class="feather-log-out"></i> Logout</a>
+                  <a class="dropdown-item" href="{% url 'index'%}"><i class="feather-log-out"></i> Chiqish</a>
                </div>
             </li>
          </ul>
@@ -75,28 +67,46 @@
             <div class="sb-sidenav-menu">
                <div class="nav">
                   <div class="sb-sidenav-menu-heading">Menyu</div>
-                  <a class="nav-link" href="reviews.html">
+                  <a class="nav-link" href="{% url 'users:review' %}">
                      <div class="sb-nav-link-icon"><i class="feather-star"></i></div>
-                     Reviews
+                     Sharxlar va baholar
                   </a>
-                  <a class="nav-link" href="my-profile.html">
-                     <div class="sb-nav-link-icon"><i class="feather-user"></i></div>
-                     My Profile
-                  </a>
+                  
                   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                      <div class="sb-nav-link-icon"><i class="feather-book"></i></div>
-                     Pages
+                     Sahifalar
                      <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                   </a>
                   <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                      <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                           Authentication
+                        <a class="nav-link collapsed" href="{{' index '}}" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                           Asosiy Sahifalar
                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                            <nav class="sb-sidenav-menu-nested nav">
-                              <a class="nav-link" href="login.html">Login</a>
+                              <a class="nav-link" href="{% url 'index' %}">Bosh sahifa</a>
+                           </nav>
+                        </div>
+                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                           <nav class="sb-sidenav-menu-nested nav">
+                              <a class="nav-link" href="{% url 'listing' %}">Menyu</a>
+                           </nav>
+                        </div>
+                     </nav>
+                     <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                        <a class="nav-link collapsed" href="{{' index '}}" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                           Boshqa sahifalar
+                           <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                           <nav class="sb-sidenav-menu-nested nav">
+                              <a class="nav-link" href="{% url 'users:login' %}">Kirish sahifa</a>
+                           </nav>
+                        </div>
+                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                           <nav class="sb-sidenav-menu-nested nav">
+                              <a class="nav-link" href="{% url 'users:register' %}">Ro'yhatdan o'tish</a>
                            </nav>
                         </div>
                      </nav>
@@ -105,43 +115,39 @@
             </div>
          </nav>
       </div>
+      {% if messages %}
+         <div class="container">
+         {% for message in messages %}
+            <div class="alert alert-secondary text-dark alert-dismissible fade show" role="alert" style="background-color: bg-second;">
+               <div style="text-align: center;">{{ message }}</div>
+                        
+                   
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+               </div>
+         {% endfor %}
+         </div>
+   {% endif %}
       {% block content%}
       {% endblock content%}
-      <footer class="py-4 bg-light mt-auto">
-        <div class="container-fluid">
-           <div class="d-flex align-items-center justify-content-between small">
-              <div class="text-muted">Copyright &copy; Your Website 2020</div>
-              <div>
-                 <a href="#">Privacy Policy</a>
-                 &middot;
-                 <a href="#">Terms &amp; Conditions</a>
-              </div>
-           </div>
-        </div>
-     </footer>
+      
   </div>
 </div>
 <!-- Edit Booking Modal -->
-<div class="modal fade" id="edit_booking" tabindex="-1" role="dialog" aria-labelledby="edit_bookingLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-     <div class="modal-content">
-        <div class="modal-header">
-           <h5 class="modal-title" id="edit_bookingLabel">Reply to review</h5>
-           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-           <span aria-hidden="true">×</span>
-           </button>
-        </div>
-        <div class="modal-body">
-           <div class="form-group m-0">
-              <textarea cols="60" rows="6" class="form-control" spellcheck="false"></textarea>
-           </div>
-        </div>
-        <div class="modal-footer">
-           <a class="btn btn-primary btn-block" href="#">Reply</a>
-        </div>
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered">
+     <div class="modal-content" style="border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);">
+       <div class="modal-header" style="background-color: #f8f9fa; border-bottom: none; border-radius: 8px 8px 0 0;">
+         <h5 class="modal-title" id="messageModalLabel" style="font-size: 20px; color: #333333;">Xabar</h5>
+       </div>
+       <div class="modal-body" id="messageModalBody" style="padding: 20px;">
+         <p style="font-size: 18px;">{{ message }}</p>
+       </div>
+       <div class="modal-footer" style="border-top: none; border-radius: 0 0 8px 8px;">
+         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 14px;">Yopish</button>
+       </div>
      </div>
-  </div>
-</div>
+   </div>
+ </div>
 <!-- Jquery -->
 <script src="{% static 'users/vendor/jquery/jquery.min.js' %}"></script>
 <!-- Fontawesome -->
@@ -166,5 +172,28 @@
 <script>
   $('input.date-pick').datepicker();
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% if messages %}
+      <script>
+         document.addEventListener('DOMContentLoaded', function() {
+            var messageModalBody = document.getElementById('messageModalBody');
+
+            {% for message in messages %}
+            var messageParagraph = document.createElement('p');
+            messageParagraph.textContent = "{{ message }}";
+            messageModalBody.appendChild(messageParagraph);
+            {% endfor %}
+
+            var messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+            messageModal.show();
+
+            // Modal oynasini sekunddan so'ng yopish
+            setTimeout(function() {
+            messageModal.hide(); // Modalni yopish
+            }, 3000); // 3000 milisekund (3 sekund) dan so'ng yopiladi, kerakli vaqtni o'zgartiring
+         });
+      </script>
+{% endif %}      
+
 </body>
 </html>
