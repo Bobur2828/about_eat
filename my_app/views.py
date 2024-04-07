@@ -24,21 +24,16 @@ def index(request):
             Q(name__icontains=search) | 
             Q(category__subcat_name__icontains=search)|
             Q(restaurant__name__icontains=search)
-
         )
-    
         data = {
             'products': products,
         }
-    
         return render(request, 'my_app/showeat.html', context=data)
-
     slider = Slider.objects.all()
     data = {
         'slider': slider,
         'products': products,
     }
-    
     return render(request, 'my_app/index.html', context=data)
 
 
@@ -52,6 +47,7 @@ class DetailView(View):
         stars = Comment.objects.filter(places=place)
         star_values = stars.values_list('stars_given', flat=True)
         search=request.GET.get('q','')
+        
         if star_values:
             result1 = round(sum(star_values) / len(star_values))
         else:
@@ -66,14 +62,13 @@ class DetailView(View):
             'formComment': formComment,
             'result1': result1,
         }
-
         return render(request, 'my_app/detail2.html', context=data)
 
     def post(self, request, id):
         formContact = ContactForm(request.POST)
         formComment = AddCommentForm(request.POST)
         place = get_object_or_404(Places, id=id)
-        
+
         if formComment.is_valid():
             if request.user.is_authenticated:
                 user = request.user  
@@ -92,15 +87,17 @@ class DetailView(View):
             return redirect(reverse('detail', kwargs={'id': place.id}))
         
         if formContact.is_valid():
-            fullname = formContact.cleaned_data['fullname']
-            email = formContact.cleaned_data['email']
-            phone = formContact.cleaned_data['phone']
-            text = formContact.cleaned_data['text']
-            message = f"Foydalanuvchi: Ismi={fullname}\nEmail={email}\nTelefon={phone}\nXabar={text}"
+            message = (
+                    f"Foydalanuvchi: Ismi={formContact.cleaned_data['fullname']}\n"
+                    f"Email={formContact.cleaned_data['email']}\n"
+                    f"Telefon={formContact.cleaned_data['phone']}\n"
+                    f"Xabar={formContact.cleaned_data['text']}"
+                    )
             asyncio.run(send_sms(message))
+            messages.success(request, "Sizning xabaringiz yuborildi")
             return redirect('detail', id=place.id)
         
-        categories1 = SubCategory.objects.filter(products__restaurant=place).distinct()
+        categories1 = SubCategory.objects.filter(products__restaurant=place).distinct()# Restorandagi mahsulotlar bo'yicha ajratilgan toifalarni takrorlamedi
         products = Product.objects.filter(restaurant=place).select_related('restaurant')
         data = {
             'place': place,
@@ -193,23 +190,8 @@ def showcategory1(request, id):
     }
     return render(request, 'my_app/showeat.html', context=data)
 
-def login(request):
-    return render(request, 'my_app/login.html')
 
-def offers(request):
-    return render(request, 'my_app/offers.html')
 
-def orders(request):
-    return render(request, 'my_app/orders.html')
-
-def register(request):
-    return render(request, 'my_app/register.html')
-
-def thanks(request):
-    return render(request, 'my_app/thanks.html')
-
-def track_order(request):
-    return render(request, 'my_app/track-order.html')
 
 
 
