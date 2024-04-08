@@ -14,7 +14,7 @@ from django.db.models import Q
 from django.contrib import messages
 from users.models import User
 
-def index(request):
+def index(request): 
     search = request.GET.get('q', '')
     products = Product.objects.select_related('category', 'restaurant').all()
     

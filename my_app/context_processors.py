@@ -27,6 +27,7 @@ def view_liked(request):
     liked_product_ids = request.session.get('liked_products', [])
     liked_products = Product.objects.filter(id__in=liked_product_ids)
     total_price = 0
+    
     for product in liked_products:
         total_price += product.price
     context = {
