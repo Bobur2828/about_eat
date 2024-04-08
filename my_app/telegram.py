@@ -21,5 +21,5 @@ async def send_to_all(bot_token, text):
 
 # Test qilish
 async def send_sms(text):
-    bot_token = '6437135033:AAHvK59HsWn_ZzDtCvNRfwARTkGQ8pRUTa0'
+    bot_token = '7199036679:AAHBM6wDGLha-6Kyb-PojeuSsFyKiDqn500'
     await send_to_all(bot_token, text)
